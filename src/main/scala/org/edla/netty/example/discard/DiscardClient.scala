@@ -6,6 +6,9 @@ import org.jboss.netty.bootstrap.ClientBootstrap
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory
 import org.jboss.netty.channel.{ChannelFuture, ChannelPipeline, ChannelPipelineFactory, Channels}
 
+/**
+ * Keeps sending random data to the specified address.
+ */
 object DiscardClient {
 
   def main(args: Array[String]): Unit = {

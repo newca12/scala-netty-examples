@@ -16,6 +16,9 @@ import org.jboss.netty.channel.{
 import java.util.logging.Logger
 import util.control.Breaks._
 
+/**
+ * Handles a client-side channel.
+ */
 class DiscardClientHandler(messageSize: Int) extends SimpleChannelUpstreamHandler {
 
   require(messageSize > 0)

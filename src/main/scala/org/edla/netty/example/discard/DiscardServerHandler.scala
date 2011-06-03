@@ -12,6 +12,9 @@ import org.jboss.netty.channel.{
 }
 import java.util.logging.Logger
 
+/**
+ * Handles a server-side channel.
+ */
 class DiscardServerHandler extends SimpleChannelUpstreamHandler {
 
   val logger = Logger.getLogger(getClass.getName)
