@@ -42,12 +42,12 @@ class DiscardClientHandler(messageSize: Int) extends SimpleChannelUpstreamHandle
 
   override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
     // Send the initial messages.
-    generateTraffic(e);
+    generateTraffic(e)
   }
 
   override def channelInterestChanged(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
     // Keep sending messages whenever the current socket buffer has room.
-    generateTraffic(e);
+    generateTraffic(e)
   }
 
   override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent): Unit = {
@@ -55,7 +55,7 @@ class DiscardClientHandler(messageSize: Int) extends SimpleChannelUpstreamHandle
   }
 
   override def writeComplete(ctx: ChannelHandlerContext, e: WriteCompletionEvent): Unit = {
-    transferredBytes.addAndGet(e.getWrittenAmount);
+    transferredBytes.addAndGet(e.getWrittenAmount)
   }
 
   override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent): Unit = {
@@ -74,9 +74,9 @@ class DiscardClientHandler(messageSize: Int) extends SimpleChannelUpstreamHandle
       while (channel.isWritable) {
         val m: ChannelBuffer = nextMessage
         if (m == null) {
-          break;
+          break
         }
-        channel.write(m);
+        channel.write(m)
       }
     }
   }

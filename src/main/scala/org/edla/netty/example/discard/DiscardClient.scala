@@ -13,7 +13,7 @@ object DiscardClient {
     if (args.length < 2 || args.length > 3) {
       System.err.println(
         "Usage: " + DiscardClient.getClass.getSimpleName +
-          " <host> <port> [<first message size>]");
+          " <host> <port> [<first message size>]")
       return
     }
 
@@ -24,7 +24,7 @@ object DiscardClient {
     if (args.length == 3) {
       firstMessageSize = args(2).toInt
     } else {
-      firstMessageSize = 256;
+      firstMessageSize = 256
     }
 
     // Configure the server.
@@ -39,12 +39,12 @@ object DiscardClient {
     })
 
     // Start the connection attempt.
-    val future: ChannelFuture = bootstrap.connect(new InetSocketAddress(host, port));
+    val future = bootstrap.connect(new InetSocketAddress(host, port));
 
     // Wait until the connection is closed or the connection attempt fails.
-    future.getChannel().getCloseFuture().awaitUninterruptibly();
+    future.getChannel().getCloseFuture().awaitUninterruptibly()
 
     // Shut down thread pools to exit.
-    bootstrap.releaseExternalResources();
+    bootstrap.releaseExternalResources()
   }
 }
