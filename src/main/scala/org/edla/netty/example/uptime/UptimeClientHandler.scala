@@ -14,44 +14,44 @@ class UptimeClientHandler(bootstrap: ClientBootstrap, timer: Timer) extends Simp
 
   var startTime: Long = -1
 
-  def getRemoteAddress() = (bootstrap.getOption("remoteAddress")).asInstanceOf[InetSocketAddress]
+  def getRemoteAddress = (bootstrap.getOption("remoteAddress")).asInstanceOf[InetSocketAddress]
 
   override def channelDisconnected(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
-    println("Disconnected from: " + getRemoteAddress())
+    println("Disconnected from: " + getRemoteAddress)
   }
 
   override def channelClosed(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
     println("Sleeping for: " + UptimeClient.RECONNECT_DELAY + "s");
-    timer.newTimeout(new TimerTask() {
+    timer.newTimeout(new TimerTask {
       override def run(timeout: Timeout): Unit = {
-        println("Reconnecting to: " + getRemoteAddress());
-        bootstrap.connect();
+        println("Reconnecting to: " + getRemoteAddress)
+        bootstrap.connect
       }
     }, UptimeClient.RECONNECT_DELAY, TimeUnit.SECONDS)
   }
 
   override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
     if (startTime < 0) {
-      startTime = System.currentTimeMillis()
+      startTime = System.currentTimeMillis
     }
-    println("Connected to: " + getRemoteAddress())
+    println("Connected to: " + getRemoteAddress)
   }
 
   override def exceptionCaught(ctx: ChannelHandlerContext, e: ExceptionEvent): Unit = {
-    val cause = e.getCause()
+    val cause = e.getCause
     cause match {
       case e: ConnectException => {
-        startTime = -1;
-        println("Failed to connect: " + cause.getMessage());
+        startTime = -1
+        println("Failed to connect: " + cause.getMessage)
       }
       case e: ReadTimeoutException => {
         // The connection was OK but there was no traffic for last period.
         println("Disconnecting due to no inbound traffic")
       }
-      case _ => cause.printStackTrace();
+      case _ => cause.printStackTrace
     }
 
-    ctx.getChannel().close()
+    ctx.getChannel.close
   }
   
     def println(msg :String) :Unit = {

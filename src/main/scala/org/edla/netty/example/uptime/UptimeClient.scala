@@ -25,17 +25,17 @@ object UptimeClient {
     // Print usage if no argument is specified.
     if (args.length != 2) {
       System.err.println(
-        "Usage: " + UptimeClient.getClass.getSimpleName() +
+        "Usage: " + UptimeClient.getClass.getSimpleName +
           " <host> <port>");
       return
     }
 
     // Parse options.
-    val host = args(0);
+    val host = args(0)
     val port = args(1).toInt
 
     // Initialize the timer that schedules subsequent reconnection attempts.
-    val timer: Timer = new HashedWheelTimer();
+    val timer: Timer = new HashedWheelTimer
 
     // Configure the client.
     val bootstrap = new ClientBootstrap(
@@ -57,6 +57,6 @@ object UptimeClient {
 
     // Initiate the first connection attempt - the rest is handled by
     // UptimeClientHandler.
-    bootstrap.connect()
+    bootstrap.connect
   }
 }
