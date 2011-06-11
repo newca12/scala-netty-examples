@@ -4,7 +4,7 @@ import java.net.InetSocketAddress
 import java.util.concurrent.Executors
 import org.jboss.netty.bootstrap.ClientBootstrap
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory
-import org.jboss.netty.channel.{ChannelFuture, ChannelPipeline, ChannelPipelineFactory, Channels}
+import org.jboss.netty.channel.{ ChannelFuture, ChannelPipeline, ChannelPipelineFactory, Channels }
 
 /**
  * Sends one message when a connection is open and echoes back any received
@@ -14,7 +14,7 @@ import org.jboss.netty.channel.{ChannelFuture, ChannelPipeline, ChannelPipelineF
  */
 object EchoClient {
 
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]) {
     // Print usage if no argument is specified.
     if (args.length < 2 || args.length > 3) {
       System.err.println(
@@ -27,11 +27,8 @@ object EchoClient {
     val host = args(0);
     val port = args(1).toInt
     var firstMessageSize: Int = 0
-    if (args.length == 3) {
-      firstMessageSize = args(2).toInt
-    } else {
-      firstMessageSize = 256
-    }
+    if (args.length == 3) firstMessageSize = args(2).toInt
+    else firstMessageSize = 256
 
     // Configure the server.
     val bootstrap = new ClientBootstrap(
@@ -48,9 +45,9 @@ object EchoClient {
     val future = bootstrap.connect(new InetSocketAddress(host, port));
 
     // Wait until the connection is closed or the connection attempt fails.
-    future.getChannel().getCloseFuture().awaitUninterruptibly()
+    future.getChannel.getCloseFuture.awaitUninterruptibly
 
     // Shut down thread pools to exit.
-    bootstrap.releaseExternalResources()
+    bootstrap.releaseExternalResources
   }
 }

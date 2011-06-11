@@ -14,19 +14,17 @@ import org.jboss.netty.channel.socket.DatagramChannel
  */
 object QuoteOfTheMomentClient {
 
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]) {
     val f = new NioDatagramChannelFactory(Executors.newCachedThreadPool)
 
     val b = new ConnectionlessBootstrap(f)
 
     // Configure the pipeline factory.
     b.setPipelineFactory(new ChannelPipelineFactory() {
-      override def getPipeline: ChannelPipeline = {
-        Channels.pipeline(
-          new StringEncoder(CharsetUtil.ISO_8859_1),
-          new StringDecoder(CharsetUtil.ISO_8859_1),
-          new QuoteOfTheMomentClientHandler)
-      }
+      override def getPipeline = Channels.pipeline(
+        new StringEncoder(CharsetUtil.ISO_8859_1),
+        new StringDecoder(CharsetUtil.ISO_8859_1),
+        new QuoteOfTheMomentClientHandler)
     })
 
     // Enable broadcast
@@ -44,7 +42,7 @@ object QuoteOfTheMomentClient {
     // safe to send small packets in UDP.
     b.setOption(
       "receiveBufferSizePredictorFactory",
-      new FixedReceiveBufferSizePredictorFactory(1024));
+      new FixedReceiveBufferSizePredictorFactory(1024))
 
     val c: DatagramChannel = b.bind(new InetSocketAddress(0)).asInstanceOf[DatagramChannel]
 

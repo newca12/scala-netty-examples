@@ -16,49 +16,43 @@ class UptimeClientHandler(bootstrap: ClientBootstrap, timer: Timer) extends Simp
 
   def getRemoteAddress = (bootstrap.getOption("remoteAddress")).asInstanceOf[InetSocketAddress]
 
-  override def channelDisconnected(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
+  override def channelDisconnected(ctx: ChannelHandlerContext, e: ChannelStateEvent) {
     println("Disconnected from: " + getRemoteAddress)
   }
 
-  override def channelClosed(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
+  override def channelClosed(ctx: ChannelHandlerContext, e: ChannelStateEvent) {
     println("Sleeping for: " + UptimeClient.RECONNECT_DELAY + "s");
     timer.newTimeout(new TimerTask {
-      override def run(timeout: Timeout): Unit = {
+      override def run(timeout: Timeout) {
         println("Reconnecting to: " + getRemoteAddress)
         bootstrap.connect
       }
     }, UptimeClient.RECONNECT_DELAY, TimeUnit.SECONDS)
   }
 
-  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
-    if (startTime < 0) {
-      startTime = System.currentTimeMillis
-    }
+  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent) {
+    if (startTime < 0) startTime = System.currentTimeMillis
     println("Connected to: " + getRemoteAddress)
   }
 
-  override def exceptionCaught(ctx: ChannelHandlerContext, e: ExceptionEvent): Unit = {
+  override def exceptionCaught(ctx: ChannelHandlerContext, e: ExceptionEvent) {
     val cause = e.getCause
     cause match {
       case e: ConnectException => {
         startTime = -1
         println("Failed to connect: " + cause.getMessage)
       }
-      case e: ReadTimeoutException => {
-        // The connection was OK but there was no traffic for last period.
-        println("Disconnecting due to no inbound traffic")
-      }
+      // The connection was OK but there was no traffic for last period.
+      case e: ReadTimeoutException => println("Disconnecting due to no inbound traffic")      
+
       case _ => cause.printStackTrace
     }
 
     ctx.getChannel.close
   }
-  
-    def println(msg :String) :Unit = {
-        if (startTime < 0) {
-            System.err.format("[SERVER IS DOWN] %s%n", msg)
-        } else {
-            System.err.format("[UPTIME: %s] %s%n", ((System.currentTimeMillis() - startTime) / 1000).toString, msg)
-        }
-    }  
+
+  def println(msg: String) {
+    if (startTime < 0) System.err.format("[SERVER IS DOWN] %s%n", msg)
+    else System.err.format("[UPTIME: %s] %s%n", ((System.currentTimeMillis() - startTime) / 1000).toString, msg)
+  }
 }

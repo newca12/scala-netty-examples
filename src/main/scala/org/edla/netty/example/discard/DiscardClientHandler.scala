@@ -29,11 +29,9 @@ class DiscardClientHandler(messageSize: Int) extends SimpleChannelUpstreamHandle
 
   private val transferredBytes = new AtomicLong
 
-  def getTransferredBytes: Long = {
-    transferredBytes.get
-  }
+  def getTransferredBytes = transferredBytes.get
 
-  override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent): Unit = {
+  override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent) {
     e match {
       case c: ChannelStateEvent => if (c.getState != ChannelState.INTEREST_OPS) logger.info(e.toString)
       case _ => None
@@ -43,25 +41,20 @@ class DiscardClientHandler(messageSize: Int) extends SimpleChannelUpstreamHandle
     super.handleUpstream(ctx, e)
   }
 
-  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
-    // Send the initial messages.
-    generateTraffic(e)
-  }
+  // Send the initial messages.
+  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent) = generateTraffic(e)
 
-  override def channelInterestChanged(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
-    // Keep sending messages whenever the current socket buffer has room.
-    generateTraffic(e)
-  }
+  // Keep sending messages whenever the current socket buffer has room.
+  override def channelInterestChanged(ctx: ChannelHandlerContext, e: ChannelStateEvent) = generateTraffic(e)
 
-  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent): Unit = {
+  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) = {
     // Server is supposed to send nothing.  Therefore, do nothing.
   }
 
-  override def writeComplete(ctx: ChannelHandlerContext, e: WriteCompletionEvent): Unit = {
+  override def writeComplete(ctx: ChannelHandlerContext, e: WriteCompletionEvent) =
     transferredBytes.addAndGet(e.getWrittenAmount)
-  }
 
-  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent): Unit = {
+  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {
     // Close the connection when an exception is raised.
     logger.warning("Unexpected exception from downstream." + e.getCause)
     e.getChannel.close
@@ -84,8 +77,6 @@ class DiscardClientHandler(messageSize: Int) extends SimpleChannelUpstreamHandle
     }
   }
 
-  private def nextMessage(): ChannelBuffer = {
-    ChannelBuffers.wrappedBuffer(content)
-  }
+  private def nextMessage(): ChannelBuffer = ChannelBuffers.wrappedBuffer(content)
 
 }

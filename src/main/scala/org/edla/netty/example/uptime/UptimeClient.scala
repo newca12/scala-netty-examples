@@ -48,9 +48,7 @@ object UptimeClient {
       private val uptimeHandler = new UptimeClientHandler(bootstrap, timer)
 
       //@throws(classOf[java.lang.Exception])
-      override def getPipeline: ChannelPipeline = {
-        Channels.pipeline(timeoutHandler, uptimeHandler)
-      }
+      override def getPipeline = Channels.pipeline(timeoutHandler, uptimeHandler)
     })
 
     bootstrap.setOption("remoteAddress", new InetSocketAddress(host, port))

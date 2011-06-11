@@ -30,29 +30,26 @@ class EchoClientHandler(firstMessageSize: Int) extends SimpleChannelUpstreamHand
   private val transferredBytes = new AtomicLong
 
   private val firstMessage = ChannelBuffers.buffer(firstMessageSize)
-  val range = 0.until(firstMessage.capacity())
+  val range = 0.until(firstMessage.capacity)
   for (i <- range) { firstMessage.writeByte(i.toByte) }
 
-  def getTransferredBytes: Long = {
-    transferredBytes.get
-  }
+  def getTransferredBytes = transferredBytes.get
 
-  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
-    // Send the first message.  Server will not send anything here
-    // because the firstMessage's capacity is 0.
-    e.getChannel().write(firstMessage)
-  }
 
-  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent): Unit = {
+  // Send the first message.  Server will not send anything here
+  // because the firstMessage's capacity is 0.
+  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent) = e.getChannel.write(firstMessage)
+
+  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
     // Send back the received message to the remote peer.
     transferredBytes.addAndGet((e.getMessage match {
       case c: ChannelBuffer => c
       case _ => throw new ClassCastException
     }) readableBytes)
-    e.getChannel().write(e.getMessage());
+    e.getChannel.write(e.getMessage);
   }
 
-  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent): Unit = {
+  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {
     // Close the connection when an exception is raised.
     logger.warning("Unexpected exception from downstream." + e.getCause)
     e.getChannel.close

@@ -7,7 +7,7 @@ import org.jboss.netty.channel.{ ChannelHandlerContext, ExceptionEvent, MessageE
  */
 class QuoteOfTheMomentClientHandler extends SimpleChannelUpstreamHandler {
 
-  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent): Unit = {
+  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
     val msg = e.getMessage.toString
     if (msg.startsWith("QOTM: ")) {
       System.out.println("Quote of the Moment: " + msg.substring(6))
@@ -15,7 +15,7 @@ class QuoteOfTheMomentClientHandler extends SimpleChannelUpstreamHandler {
     }
   }
 
-  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent): Unit = {
+  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {
     e.getCause.printStackTrace
     e.getChannel.close
   }

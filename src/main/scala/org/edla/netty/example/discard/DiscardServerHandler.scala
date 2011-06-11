@@ -21,11 +21,9 @@ class DiscardServerHandler extends SimpleChannelUpstreamHandler {
 
   val transferredBytes = new AtomicLong
 
-  def getTransferredBytes: Long = {
-    transferredBytes.get
-  }
+  def getTransferredBytes = transferredBytes.get
 
-  override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent): Unit = {
+  override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent) {
     e match {
       case c: ChannelStateEvent => logger.info(e.toString)
       case _ => None
@@ -33,7 +31,7 @@ class DiscardServerHandler extends SimpleChannelUpstreamHandler {
     super.handleUpstream(ctx, e)
   }
 
-  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent): Unit = {
+  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
     // Discard received data silently by doing nothing.
     transferredBytes.addAndGet((e.getMessage match {
       case c: ChannelBuffer => c
@@ -41,7 +39,7 @@ class DiscardServerHandler extends SimpleChannelUpstreamHandler {
     }) readableBytes)
   }
 
-  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent): Unit = {
+  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {
     // Close the connection when an exception is raised.
     logger.warning("Unexpected exception from downstream." + e.getCause)
     e.getChannel.close

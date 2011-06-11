@@ -1,5 +1,5 @@
 package org.edla.netty.example.telnet
-import java.io.{BufferedReader, InputStreamReader}
+import java.io.{ BufferedReader, InputStreamReader }
 import java.net.InetSocketAddress
 import java.util.concurrent.Executors
 import org.jboss.netty.bootstrap.ClientBootstrap
@@ -48,9 +48,7 @@ object TelnetClient {
     breakable {
       while (true) {
         val line = in.readLine
-        if (line == null) {
-          break
-        }
+        if (line == null) break
 
         // Sends the received line to the server.
         lastWriteFuture = channel.write(line + "\r\n")
@@ -65,9 +63,7 @@ object TelnetClient {
     }
 
     // Wait until all messages are flushed before closing the channel.
-    if (lastWriteFuture != null) {
-      lastWriteFuture.awaitUninterruptibly
-    }
+    if (lastWriteFuture != null) lastWriteFuture.awaitUninterruptibly
 
     // Close the connection.  Make sure the close operation ends because
     // all I/O operations are asynchronous in Netty.

@@ -22,7 +22,7 @@ class TelnetClientHandler extends SimpleChannelUpstreamHandler {
 
   private val logger = Logger.getLogger(getClass.getName)
 
-  override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent): Unit = {
+  override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent) {
     e match {
       case c: ChannelStateEvent => logger.info(e.toString)
       case _ => None
@@ -30,11 +30,11 @@ class TelnetClientHandler extends SimpleChannelUpstreamHandler {
     super.handleUpstream(ctx, e)
   }
 
-  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent): Unit = {
+  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
     System.err.println(e.getMessage)
   }
 
-  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent): Unit = {
+  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {
     // Close the connection when an exception is raised.
     logger.warning("Unexpected exception from downstream." + e.getCause)
     e.getChannel.close

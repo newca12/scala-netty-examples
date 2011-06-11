@@ -12,15 +12,13 @@ import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory
  */
 object DiscardServer {
 
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]) {
     // Configure the server.
     val bootstrap = new ServerBootstrap(
       new NioServerSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool))
     // Set up the pipeline factory.
     bootstrap.setPipelineFactory(new ChannelPipelineFactory {
-      override def getPipeline: ChannelPipeline = {
-        Channels.pipeline(new DiscardServerHandler)
-      }
+      override def getPipeline: ChannelPipeline = Channels.pipeline(new DiscardServerHandler)
     })
 
     // Bind and start to accept incoming connections.

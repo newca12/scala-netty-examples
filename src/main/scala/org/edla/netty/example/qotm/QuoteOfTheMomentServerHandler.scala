@@ -1,7 +1,7 @@
 package org.edla.netty.example.qotm
 
 import java.util.Random
-import org.jboss.netty.channel.{ChannelHandlerContext, ExceptionEvent, MessageEvent, SimpleChannelUpstreamHandler}
+import org.jboss.netty.channel.{ ChannelHandlerContext, ExceptionEvent, MessageEvent, SimpleChannelUpstreamHandler }
 
 /**
  * Handles a server-side channel.
@@ -24,15 +24,12 @@ class QuoteOfTheMomentServerHandler extends SimpleChannelUpstreamHandler {
     quotes(quoteId)
   }
 
-  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent): Unit = {
+  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
     val msg = e.getMessage.toString
-    if (msg.equals("QOTM?")) {
-      e.getChannel.write("QOTM: " + nextQuote, e.getRemoteAddress);
-    }
+    if (msg.equals("QOTM?")) e.getChannel.write("QOTM: " + nextQuote, e.getRemoteAddress);
   }
 
-  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent): Unit = {
+  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) =
     e.getCause.printStackTrace
-    // We don't close the channel because we can keep serving requests.
-  }
+  // We don't close the channel because we can keep serving requests.
 }

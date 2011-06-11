@@ -13,19 +13,18 @@ import org.jboss.netty.util.CharsetUtil
  */
 object QuoteOfTheMomentServer {
 
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]) {
     val f = new NioDatagramChannelFactory(Executors.newCachedThreadPool)
 
     val b = new ConnectionlessBootstrap(f)
 
     // Configure the pipeline factory.
     b.setPipelineFactory(new ChannelPipelineFactory() {
-      override def getPipeline: ChannelPipeline = {
-        Channels.pipeline(
-          new StringEncoder(CharsetUtil.ISO_8859_1),
-          new StringDecoder(CharsetUtil.ISO_8859_1),
-          new QuoteOfTheMomentServerHandler)
-      }
+      override def getPipeline = Channels.pipeline(
+        new StringEncoder(CharsetUtil.ISO_8859_1),
+        new StringDecoder(CharsetUtil.ISO_8859_1),
+        new QuoteOfTheMomentServerHandler)
+
     })
     // Server doesn't need to enable broadcast to listen to a broadcast.
     b.setOption("broadcast", "false")
