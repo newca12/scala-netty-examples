@@ -26,7 +26,7 @@ class QuoteOfTheMomentServerHandler extends SimpleChannelUpstreamHandler {
 
   override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
     val msg = e.getMessage.toString
-    if (msg.equals("QOTM?")) e.getChannel.write("QOTM: " + nextQuote, e.getRemoteAddress);
+    if (msg.equals("QOTM?")) e.getChannel.write("QOTM: " + nextQuote, e.getRemoteAddress)
   }
 
   override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) =

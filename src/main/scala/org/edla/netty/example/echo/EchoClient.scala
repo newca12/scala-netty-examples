@@ -24,7 +24,7 @@ object EchoClient {
     }
 
     // Parse options.
-    val host = args(0);
+    val host = args(0)
     val port = args(1).toInt
     var firstMessageSize: Int = 0
     if (args.length == 3) firstMessageSize = args(2).toInt
@@ -42,7 +42,7 @@ object EchoClient {
     })
 
     // Start the connection attempt.
-    val future = bootstrap.connect(new InetSocketAddress(host, port));
+    val future = bootstrap.connect(new InetSocketAddress(host, port))
 
     // Wait until the connection is closed or the connection attempt fails.
     future.getChannel.getCloseFuture.awaitUninterruptibly

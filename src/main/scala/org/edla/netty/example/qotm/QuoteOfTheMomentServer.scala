@@ -19,7 +19,7 @@ object QuoteOfTheMomentServer {
     val b = new ConnectionlessBootstrap(f)
 
     // Configure the pipeline factory.
-    b.setPipelineFactory(new ChannelPipelineFactory() {
+    b.setPipelineFactory(new ChannelPipelineFactory {
       override def getPipeline = Channels.pipeline(
         new StringEncoder(CharsetUtil.ISO_8859_1),
         new StringDecoder(CharsetUtil.ISO_8859_1),

@@ -49,7 +49,7 @@ class FactorialClientHandler(count: Int) extends SimpleChannelUpstreamHandler {
         return factorial
       } catch {
         case e: InterruptedException =>
-          interrupted = true;
+          interrupted = true
       }
     }
     BigInteger.ONE
@@ -59,7 +59,6 @@ class FactorialClientHandler(count: Int) extends SimpleChannelUpstreamHandler {
     logger.info("FactorialClientHandler.handleStream")
     e match {
       case c: ChannelStateEvent => logger.info(e.toString)
-      case _ => None
     }
     super.handleUpstream(ctx, e)
   }

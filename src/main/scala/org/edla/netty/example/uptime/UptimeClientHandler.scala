@@ -21,7 +21,7 @@ class UptimeClientHandler(bootstrap: ClientBootstrap, timer: Timer) extends Simp
   }
 
   override def channelClosed(ctx: ChannelHandlerContext, e: ChannelStateEvent) {
-    println("Sleeping for: " + UptimeClient.RECONNECT_DELAY + "s");
+    println("Sleeping for: " + UptimeClient.RECONNECT_DELAY + "s")
     timer.newTimeout(new TimerTask {
       override def run(timeout: Timeout) {
         println("Reconnecting to: " + getRemoteAddress)
@@ -53,6 +53,6 @@ class UptimeClientHandler(bootstrap: ClientBootstrap, timer: Timer) extends Simp
 
   def println(msg: String) {
     if (startTime < 0) System.err.format("[SERVER IS DOWN] %s%n", msg)
-    else System.err.format("[UPTIME: %s] %s%n", ((System.currentTimeMillis() - startTime) / 1000).toString, msg)
+    else System.err.format("[UPTIME: %s] %s%n", ((System.currentTimeMillis - startTime) / 1000).toString, msg)
   }
 }

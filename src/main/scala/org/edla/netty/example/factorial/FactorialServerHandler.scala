@@ -50,7 +50,7 @@ class FactorialServerHandler extends SimpleChannelUpstreamHandler {
 
   override def channelDisconnected(ctx: ChannelHandlerContext, e: ChannelStateEvent) {
     System.err.format(
-      "Factorial of %s is: %s", lastMultiplier.toString, factorial.toString);
+      "Factorial of %s is: %s", lastMultiplier.toString, factorial.toString)
   }
 
   override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {

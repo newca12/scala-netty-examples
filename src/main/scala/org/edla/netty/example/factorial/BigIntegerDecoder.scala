@@ -26,7 +26,7 @@ class BigIntegerDecoder extends FrameDecoder {
         if (magicNumber != 'F') {
             buffer.resetReaderIndex
             throw new CorruptedFrameException(
-                    "Invalid magic number: " + magicNumber);
+                    "Invalid magic number: " + magicNumber)
         }
 
         // Wait until the whole data is available.
@@ -38,8 +38,8 @@ class BigIntegerDecoder extends FrameDecoder {
 
         // Convert the received data into a new BigInteger.
         val decoded = new Array[Byte](dataLength)
-        buffer.readBytes(decoded);
+        buffer.readBytes(decoded)
 
-        new BigInteger(decoded);    
+        new BigInteger(decoded)    
   }
 }

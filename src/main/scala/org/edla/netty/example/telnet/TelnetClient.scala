@@ -11,7 +11,7 @@ import scala.util.control.Breaks._
  * Simplistic telnet client.
  */
 object TelnetClient {
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]) {
     // Print usage if no argument is specified.
     if (args.length != 2) {
       System.err.println(

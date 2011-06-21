@@ -46,7 +46,7 @@ class EchoClientHandler(firstMessageSize: Int) extends SimpleChannelUpstreamHand
       case c: ChannelBuffer => c
       case _ => throw new ClassCastException
     }) readableBytes)
-    e.getChannel.write(e.getMessage);
+    e.getChannel.write(e.getMessage)
   }
 
   override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {

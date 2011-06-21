@@ -18,7 +18,7 @@ object ObjectEchoServer {
       new NioServerSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool))
 
     // Configure the pipeline factory.
-    bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
+    bootstrap.setPipelineFactory(new ChannelPipelineFactory {
       override def getPipeline = Channels.pipeline(
         new ObjectEncoder,
         new ObjectDecoder,

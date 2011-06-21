@@ -24,22 +24,21 @@ class TelnetServerHandler extends SimpleChannelUpstreamHandler {
 
   private val logger = Logger.getLogger(getClass.getName)
 
-  override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent): Unit = {
+  override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent) {
     e match {
-      case c: ChannelStateEvent => logger.info(e.toString())
-      case _ => None
+      case c: ChannelStateEvent => logger.info(e.toString)
     }
     super.handleUpstream(ctx, e)
   }
 
-  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
+  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent) {
     // Send greeting for a new connection.
     e.getChannel.write(
       "Welcome to " + InetAddress.getLocalHost.getHostName + "!\r\n")
     e.getChannel.write("It is " + new Date + " now.\r\n")
   }
 
-  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent): Unit = {
+  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
 
         // Cast to a String first.
         // We know it is a String because we put some codec in TelnetPipelineFactory.
@@ -50,7 +49,7 @@ class TelnetServerHandler extends SimpleChannelUpstreamHandler {
         var close: Boolean = false
         if (request.length == 0) {
             response = "Please type something.\r\n"
-        } else if (request.toLowerCase().equals("bye")) {
+        } else if (request.toLowerCase.equals("bye")) {
             response = "Have a good day!\r\n"
             close = true
         } else {
@@ -68,7 +67,7 @@ class TelnetServerHandler extends SimpleChannelUpstreamHandler {
         }
   }
 
-  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent): Unit = {
+  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {
     // Close the connection when an exception is raised.
     logger.warning("Unexpected exception from downstream." + e.getCause)
     e.getChannel.close

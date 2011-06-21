@@ -13,8 +13,8 @@ class FactorialServerPipelineFactory() extends ChannelPipelineFactory {
     val pipeline = org.jboss.netty.channel.Channels.pipeline
 
     // Enable stream compression (you can remove these two if unnecessary)
-    //pipeline.addLast("deflater", new ZlibEncoder(ZlibWrapper.GZIP));
-    //pipeline.addLast("inflater", new ZlibDecoder(ZlibWrapper.GZIP));
+    //pipeline.addLast("deflater", new ZlibEncoder(ZlibWrapper.GZIP))
+    //pipeline.addLast("inflater", new ZlibDecoder(ZlibWrapper.GZIP))
 
     // Add the number codec first,
     pipeline.addLast("decoder", new BigIntegerDecoder)

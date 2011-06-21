@@ -23,7 +23,7 @@ object FactorialClient {
     }
 
     // Parse options.
-    val host = args(0);
+    val host = args(0)
     val port = args(1).toInt
     val count = args(2).toInt
         if (count <= 0) {

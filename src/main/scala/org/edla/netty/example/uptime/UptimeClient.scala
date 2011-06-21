@@ -21,12 +21,12 @@ object UptimeClient {
   // Reconnect when the server sends nothing for 10 seconds.
   private val READ_TIMEOUT = 10
 
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]) {
     // Print usage if no argument is specified.
     if (args.length != 2) {
       System.err.println(
         "Usage: " + UptimeClient.getClass.getSimpleName +
-          " <host> <port>");
+          " <host> <port>")
       return
     }
 

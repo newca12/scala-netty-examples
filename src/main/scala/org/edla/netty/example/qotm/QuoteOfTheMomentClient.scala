@@ -20,7 +20,7 @@ object QuoteOfTheMomentClient {
     val b = new ConnectionlessBootstrap(f)
 
     // Configure the pipeline factory.
-    b.setPipelineFactory(new ChannelPipelineFactory() {
+    b.setPipelineFactory(new ChannelPipelineFactory {
       override def getPipeline = Channels.pipeline(
         new StringEncoder(CharsetUtil.ISO_8859_1),
         new StringDecoder(CharsetUtil.ISO_8859_1),
@@ -52,7 +52,7 @@ object QuoteOfTheMomentClient {
     // QuoteOfTheMomentClientHandler will close the DatagramChannel when a
     // response is received.  If the channel is not closed within 5 seconds,
     // print an error message and quit.
-    if (!c.getCloseFuture().awaitUninterruptibly(5000)) {
+    if (!c.getCloseFuture.awaitUninterruptibly(5000)) {
       System.err.println("QOTM request timed out.")
       c.close.awaitUninterruptibly
     }

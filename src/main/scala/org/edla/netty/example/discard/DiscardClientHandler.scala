@@ -25,7 +25,7 @@ class DiscardClientHandler(messageSize: Int) extends SimpleChannelUpstreamHandle
 
   private val logger = Logger.getLogger(getClass.getName)
 
-  var content = new Array[Byte](messageSize);
+  var content = new Array[Byte](messageSize)
 
   private val transferredBytes = new AtomicLong
 
@@ -34,7 +34,6 @@ class DiscardClientHandler(messageSize: Int) extends SimpleChannelUpstreamHandle
   override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent) {
     e match {
       case c: ChannelStateEvent => if (c.getState != ChannelState.INTEREST_OPS) logger.info(e.toString)
-      case _ => None
     }
 
     // Let SimpleChannelHandler call actual event handler methods below.

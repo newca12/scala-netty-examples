@@ -22,7 +22,7 @@ object ObjectEchoClient {
     }
 
     // Parse options.
-    val host = args(0);
+    val host = args(0)
     val port = args(1).toInt
     var firstMessageSize: Int = 0
     if (args.length == 3) firstMessageSize = args(2).toInt
