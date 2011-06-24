@@ -59,6 +59,7 @@ class FactorialClientHandler(count: Int) extends SimpleChannelUpstreamHandler {
     logger.info("FactorialClientHandler.handleStream")
     e match {
       case c: ChannelStateEvent => logger.info(e.toString)
+      case _ =>
     }
     super.handleUpstream(ctx, e)
   }

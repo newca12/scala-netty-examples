@@ -40,6 +40,6 @@ class BigIntegerDecoder extends FrameDecoder {
         val decoded = new Array[Byte](dataLength)
         buffer.readBytes(decoded)
 
-        new BigInteger(decoded)    
+        new BigInteger(decoded)  
   }
 }
