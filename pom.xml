@@ -10,7 +10,7 @@
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
 		<encoding>UTF-8</encoding>
-		<scala.version>2.9.0-1</scala.version>
+		<scala.version>2.9.1</scala.version>
 	</properties>
 
 	<repositories>
@@ -55,7 +55,7 @@
 		<dependency>
 			<groupId>org.specs2</groupId>
 			<artifactId>specs2_${scala.version}</artifactId>
-			<version>1.3</version>
+			<version>1.5</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
