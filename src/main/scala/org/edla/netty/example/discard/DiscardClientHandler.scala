@@ -1,6 +1,5 @@
 package org.edla.netty.example.discard
 
-import java.util.concurrent.atomic.AtomicLong
 import org.jboss.netty.buffer.{ ChannelBuffer, ChannelBuffers }
 import org.jboss.netty.channel.{
   Channel,
@@ -27,9 +26,9 @@ class DiscardClientHandler(messageSize: Int) extends SimpleChannelUpstreamHandle
 
   var content = new Array[Byte](messageSize)
 
-  private val transferredBytes = new AtomicLong
+  private var transferredBytes = 0L
 
-  def getTransferredBytes = transferredBytes.get
+  def getTransferredBytes = transferredBytes
 
   override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent) {
     e match {
@@ -52,7 +51,7 @@ class DiscardClientHandler(messageSize: Int) extends SimpleChannelUpstreamHandle
   }
 
   override def writeComplete(ctx: ChannelHandlerContext, e: WriteCompletionEvent) =
-    transferredBytes.addAndGet(e.getWrittenAmount)
+    transferredBytes += e.getWrittenAmount
 
   override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {
     // Close the connection when an exception is raised.
