@@ -1,6 +1,5 @@
 package org.edla.netty.example.discard
 
-import java.util.concurrent.atomic.AtomicLong
 import org.jboss.netty.buffer.ChannelBuffer
 import org.jboss.netty.channel.{
   ChannelEvent,
@@ -19,9 +18,9 @@ class DiscardServerHandler extends SimpleChannelUpstreamHandler {
 
   val logger = Logger.getLogger(getClass.getName)
 
-  val transferredBytes = new AtomicLong
+  var transferredBytes = 0L
 
-  def getTransferredBytes = transferredBytes.get
+  def getTransferredBytes = transferredBytes
 
   override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent) {
     e match {
@@ -33,7 +32,7 @@ class DiscardServerHandler extends SimpleChannelUpstreamHandler {
 
   override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
     // Discard received data silently by doing nothing.
-    transferredBytes.addAndGet((e.getMessage match {
+    transferredBytes += ((e.getMessage match {
       case c: ChannelBuffer => c
       case _ => throw new ClassCastException
     }) readableBytes)
