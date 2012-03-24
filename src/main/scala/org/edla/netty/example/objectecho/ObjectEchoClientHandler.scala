@@ -30,7 +30,7 @@ class ObjectEchoClientHandler(firstMessageSize: Int) extends SimpleChannelUpstre
 
   private val transferredMessages = new AtomicLong
 
-  private val firstMessage = new ArrayList[Integer](firstMessageSize)
+  private val firstMessage = new ArrayList[java.lang.Integer](firstMessageSize)
   val range = 0.until(firstMessageSize)
   for (i <- range) { firstMessage.add(i) }
 

@@ -6,6 +6,7 @@ import org.jboss.netty.bootstrap.ServerBootstrap
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory
 import org.jboss.netty.channel.{ ChannelPipeline, ChannelPipelineFactory, Channels }
 import org.jboss.netty.handler.codec.serialization.{ ObjectDecoder, ObjectEncoder }
+import org.jboss.netty.handler.codec.serialization.ClassResolvers
 
 /**
  * Modification of EchoServer which utilizes Java object serialization.
@@ -21,7 +22,8 @@ object ObjectEchoServer {
     bootstrap.setPipelineFactory(new ChannelPipelineFactory {
       override def getPipeline = Channels.pipeline(
         new ObjectEncoder,
-        new ObjectDecoder,
+        //original Java code still use deprecated API
+        new ObjectDecoder(ClassResolvers.weakCachingConcurrentResolver(null)),
         new ObjectEchoServerHandler)
     })
     // Bind and start to accept incoming connections.
