@@ -13,19 +13,6 @@
 		<scala.version>2.9.1</scala.version>
 	</properties>
 
-	<repositories>
-		<repository>
-			<id>scala-tools.org</id>
-			<name>Scala-Tools Maven2 Repository</name>
-			<url>http://scala-tools.org/repo-releases</url>
-		</repository>
-		<repository>
-			<id>snaphots.scala-tools.org</id>
-			<name>Scala-Tools Maven2 Repository snaphots</name>
-			<url>http://scala-tools.org/repo-snapshots</url>
-		</repository>
-	</repositories>
-
 	<pluginRepositories>
 		<pluginRepository>
 			<id>el4.elca-services.ch</id>
