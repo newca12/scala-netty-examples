@@ -19,12 +19,12 @@ class BigIntegerDecoder extends FrameDecoder {
             return null
         }
 
-        buffer.markReaderIndex
+        buffer.markReaderIndex()
 
         // Check the magic number.
         val magicNumber: Int = buffer.readUnsignedByte
         if (magicNumber != 'F') {
-            buffer.resetReaderIndex
+            buffer.resetReaderIndex()
             throw new CorruptedFrameException(
                     "Invalid magic number: " + magicNumber)
         }
@@ -32,7 +32,7 @@ class BigIntegerDecoder extends FrameDecoder {
         // Wait until the whole data is available.
         val dataLength = buffer.readInt
         if (buffer.readableBytes < dataLength) {
-            buffer.resetReaderIndex
+            buffer.resetReaderIndex()
             return null
         }
 

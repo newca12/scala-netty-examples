@@ -37,14 +37,15 @@ object TelnetClient {
     // Wait until the connection attempt succeeds or fails.
     val channel = future.awaitUninterruptibly.getChannel
     if (!future.isSuccess) {
-      future.getCause.printStackTrace
-      bootstrap.releaseExternalResources
+      future.getCause.printStackTrace()
+      bootstrap.releaseExternalResources()
       return
     }
 
     // Read commands from the stdin.
     var lastWriteFuture: ChannelFuture = null
     val in = new BufferedReader(new InputStreamReader(System.in))
+    //TODO rewrite the loop as a recursive function. (Refer to Programming in Scala, 7.6 Living without break and continue)
     breakable {
       while (true) {
         val line = in.readLine
@@ -67,9 +68,9 @@ object TelnetClient {
 
     // Close the connection.  Make sure the close operation ends because
     // all I/O operations are asynchronous in Netty.
-    channel.close.awaitUninterruptibly
+    channel.close().awaitUninterruptibly
 
     // Shut down all thread pools to exit.
-    bootstrap.releaseExternalResources
+    bootstrap.releaseExternalResources()
   }
 }

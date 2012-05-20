@@ -54,9 +54,9 @@ object QuoteOfTheMomentClient {
     // print an error message and quit.
     if (!c.getCloseFuture.awaitUninterruptibly(5000)) {
       System.err.println("QOTM request timed out.")
-      c.close.awaitUninterruptibly
+      c.close().awaitUninterruptibly
     }
 
-    f.releaseExternalResources
+    f.releaseExternalResources()
   }
 }

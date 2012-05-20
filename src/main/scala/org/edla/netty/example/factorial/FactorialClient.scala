@@ -51,6 +51,6 @@ object FactorialClient {
                 "Factorial of %s is: %s", count.toString, handler.getFactorial.toString)
 
         // Shut down all thread pools to exit.
-        bootstrap.releaseExternalResources
+        bootstrap.releaseExternalResources()
     }
 }

@@ -43,6 +43,6 @@ object DiscardClient {
     future.getChannel.getCloseFuture.awaitUninterruptibly
 
     // Shut down thread pools to exit.
-    bootstrap.releaseExternalResources
+    bootstrap.releaseExternalResources()
   }
 }

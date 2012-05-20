@@ -29,7 +29,8 @@ class QuoteOfTheMomentServerHandler extends SimpleChannelUpstreamHandler {
     if (msg.equals("QOTM?")) e.getChannel.write("QOTM: " + nextQuote, e.getRemoteAddress)
   }
 
-  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) =
-    e.getCause.printStackTrace
-  // We don't close the channel because we can keep serving requests.
+  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {
+    e.getCause.printStackTrace()
+    // We don't close the channel because we can keep serving requests.
+  }
 }

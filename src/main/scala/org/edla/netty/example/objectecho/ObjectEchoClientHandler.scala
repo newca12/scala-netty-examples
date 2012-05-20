@@ -44,9 +44,10 @@ class ObjectEchoClientHandler(firstMessageSize: Int) extends SimpleChannelUpstre
     super.handleUpstream(ctx, e)
   }
 
-  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent) =
+  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent) {
     // Send the first message if this handler is a client-side handler.
     e.getChannel.write(firstMessage)
+  }
 
   override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
     // Echo back the received object to the client.
@@ -57,6 +58,6 @@ class ObjectEchoClientHandler(firstMessageSize: Int) extends SimpleChannelUpstre
   override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {
     // Close the connection when an exception is raised.
     logger.warning("Unexpected exception from downstream." + e.getCause)
-    e.getChannel.close
+    e.getChannel.close()
   }
 }

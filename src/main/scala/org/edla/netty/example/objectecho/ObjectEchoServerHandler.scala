@@ -42,7 +42,7 @@ class ObjectEchoServerHandler extends SimpleChannelUpstreamHandler {
   override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {
     // Close the connection when an exception is raised.
     logger.warning("Unexpected exception from downstream." + e.getCause)
-    e.getChannel.close
+    e.getChannel.close()
   }
 
 }

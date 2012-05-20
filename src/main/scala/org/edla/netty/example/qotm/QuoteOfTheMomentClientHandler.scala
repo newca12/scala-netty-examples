@@ -11,12 +11,12 @@ class QuoteOfTheMomentClientHandler extends SimpleChannelUpstreamHandler {
     val msg = e.getMessage.toString
     if (msg.startsWith("QOTM: ")) {
       System.out.println("Quote of the Moment: " + msg.substring(6))
-      e.getChannel.close
+      e.getChannel.close()
     }
   }
 
   override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {
-    e.getCause.printStackTrace
-    e.getChannel.close
+    e.getCause.printStackTrace()
+    e.getChannel.close()
   }
 }

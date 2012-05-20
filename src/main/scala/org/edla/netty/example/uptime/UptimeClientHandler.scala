@@ -45,10 +45,10 @@ class UptimeClientHandler(bootstrap: ClientBootstrap, timer: Timer) extends Simp
       // The connection was OK but there was no traffic for last period.
       case e: ReadTimeoutException => println("Disconnecting due to no inbound traffic")      
 
-      case _ => cause.printStackTrace
+      case _ => cause.printStackTrace()
     }
 
-    ctx.getChannel.close
+    ctx.getChannel.close()
   }
 
   def println(msg: String) {

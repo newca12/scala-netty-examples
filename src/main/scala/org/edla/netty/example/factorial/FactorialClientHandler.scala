@@ -44,7 +44,7 @@ class FactorialClientHandler(count: Int) extends SimpleChannelUpstreamHandler {
       try {
         val factorial = answer.take
         if (interrupted) {
-          Thread.currentThread.interrupt
+          Thread.currentThread.interrupt()
         }
         return factorial
       } catch {
@@ -76,7 +76,7 @@ class FactorialClientHandler(count: Int) extends SimpleChannelUpstreamHandler {
     receivedMessages += 1
     if (receivedMessages == count) {
       // Offer the answer after closing the connection.
-      e.getChannel.close.addListener(new ChannelFutureListener {
+      e.getChannel.close().addListener(new ChannelFutureListener {
         override def operationComplete(future: ChannelFuture) {
           val offered: Boolean = answer.offer(((e.getMessage).asInstanceOf[BigInteger]))
           assert(offered)
@@ -88,11 +88,12 @@ class FactorialClientHandler(count: Int) extends SimpleChannelUpstreamHandler {
   override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {
     // Close the connection when an exception is raised.
     logger.warning("Unexpected exception from downstream." + e.getCause)
-    e.getChannel.close
+    e.getChannel.close()
   }
 
   def sendNumbers(e: ChannelStateEvent) {
     val channel = e.getChannel
+    //TODO rewrite the loop as a recursive function. (Refer to Programming in Scala, 7.6 Living without break and continue)
     breakable {
       while (channel.isWritable) {
         if (i <= count) {

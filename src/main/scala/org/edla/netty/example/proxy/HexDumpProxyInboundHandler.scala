@@ -39,7 +39,7 @@ class HexDumpProxyInboundHandler(cf: ClientSocketChannelFactory, remoteHost: Str
           inboundChannel.setReadable(true)
         } else {
           // Close the connection if the connection attempt has failed.
-          inboundChannel.close
+          inboundChannel.close()
         }
       }
     })
@@ -75,7 +75,7 @@ class HexDumpProxyInboundHandler(cf: ClientSocketChannelFactory, remoteHost: Str
   }
 
   override def exceptionCaught(ctx: ChannelHandlerContext, e: ExceptionEvent) {
-    e.getCause.printStackTrace
+    e.getCause.printStackTrace()
     closeOnFlush(e.getChannel)
   }
 
@@ -110,8 +110,8 @@ class HexDumpProxyInboundHandler(cf: ClientSocketChannelFactory, remoteHost: Str
     }
 
     override def exceptionCaught(ctx: ChannelHandlerContext, e: ExceptionEvent) {
-      e.getCause.printStackTrace;
-      closeOnFlush(e.getChannel())
+      e.getCause.printStackTrace();
+      closeOnFlush(e.getChannel)
     }
   }
 

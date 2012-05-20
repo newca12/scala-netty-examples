@@ -41,22 +41,23 @@ class DiscardClientHandler(messageSize: Int) extends SimpleChannelUpstreamHandle
   }
 
   // Send the initial messages.
-  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent) = generateTraffic(e)
+  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent) { generateTraffic(e) }
 
   // Keep sending messages whenever the current socket buffer has room.
-  override def channelInterestChanged(ctx: ChannelHandlerContext, e: ChannelStateEvent) = generateTraffic(e)
+  override def channelInterestChanged(ctx: ChannelHandlerContext, e: ChannelStateEvent) { generateTraffic(e) }
 
-  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) = {
+  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
     // Server is supposed to send nothing.  Therefore, do nothing.
   }
 
-  override def writeComplete(ctx: ChannelHandlerContext, e: WriteCompletionEvent) =
+  override def writeComplete(ctx: ChannelHandlerContext, e: WriteCompletionEvent) {
     transferredBytes += e.getWrittenAmount
+  }
 
   override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {
     // Close the connection when an exception is raised.
     logger.warning("Unexpected exception from downstream." + e.getCause)
-    e.getChannel.close
+    e.getChannel.close()
   }
 
   private def generateTraffic(e: ChannelStateEvent) {
@@ -65,9 +66,10 @@ class DiscardClientHandler(messageSize: Int) extends SimpleChannelUpstreamHandle
     // If you keep writing messages ignoring this property,
     // you will end up with an OutOfMemoryError.
     val channel = e.getChannel
+    //TODO rewrite the loop as a recursive function. (Refer to Programming in Scala, 7.6 Living without break and continue)
     breakable {
       while (channel.isWritable) {
-        val m: ChannelBuffer = nextMessage
+        val m: ChannelBuffer = nextMessage()
         if (m == null) {
           break
         }
