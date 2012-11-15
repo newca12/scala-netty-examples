@@ -30,13 +30,14 @@
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty</artifactId>
-			<version>3.4.5.Final</version>
+			<version>3.5.10.Final</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
 	<build>
-		<sourceDirectory>src/main/scala</sourceDirectory>
+        <sourceDirectory>src/main/scala</sourceDirectory>
+        <testSourceDirectory>src/main/scala</testSourceDirectory>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -51,43 +52,16 @@
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>
 				<artifactId>scala-maven-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>3.1.0</version>
 				<executions>
 					<execution>
 						<goals>
+							<goal>add-source</goal>
 							<goal>compile</goal>
 							<goal>testCompile</goal>
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<args>
-						<arg>-make:transitive</arg>
-						<arg>-dependencyfile</arg>
-						<arg>${project.build.directory}/.scala_dependencies</arg>
-					</args>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.6</version>
-				<configuration>
-					<useFile>false</useFile>
-					<disableXmlReport>true</disableXmlReport>
-					<!-- If you have classpath issue like NoDefClassError,... -->
-					<!-- useManifestOnlyJar>false</useManifestOnlyJar -->
-					<includes>
-						<include>**/*Spec.*</include>
-					</includes>
-					<excludes>
-						<exclude>**/*.off</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>ch.elca.el4j.maven.plugins</groupId>
-				<artifactId>maven-depgraph-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
