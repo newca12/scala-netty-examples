@@ -1,68 +1,83 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>edla.org</groupId>
-	<artifactId>scala-netty-examples</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<inceptionYear>2012</inceptionYear>
-
-	<properties>
-		<maven.compiler.source>1.6</maven.compiler.source>
-		<maven.compiler.target>1.6</maven.compiler.target>
-		<encoding>UTF-8</encoding>
-		<scala.version>2.9.2</scala.version>
-	</properties>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>el4.elca-services.ch</id>
-			<name>el4</name>
-			<url>http://el4.elca-services.ch/el4j/maven2repository</url>
-		</pluginRepository>
-	</pluginRepositories>
-
-	<dependencies>
-		<dependency>
-			<groupId>org.scala-lang</groupId>
-			<artifactId>scala-library</artifactId>
-			<version>${scala.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty</artifactId>
-			<version>3.5.10.Final</version>
-			<scope>compile</scope>
-		</dependency>
-	</dependencies>
-
-	<build>
+<?xml version='1.0' encoding='UTF-8'?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.edla</groupId>
+    <artifactId>scala-netty-examples_2.10</artifactId>
+    <packaging>jar</packaging>
+    <description>scala-netty-examples</description>
+    <url>http://github.com/newca12/scala-netty-examples</url>
+    <version>0.1-SNAPSHOT</version>
+    <licenses>
+        <license>
+            <name>GNU GPL v3</name>
+            <url>http://www.gnu.org/licenses/gpl.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <name>scala-netty-examples</name>
+    <organization>
+        <name>org.edla</name>
+        <url>http://github.com/newca12/scala-netty-examples</url>
+    </organization>
+    <!-- repositories not handled yet by sbt make-pom so added manually 
+       pluginRepository needed for add-source goal
+  -->
+    <scm>
+        <url>git@github.com:newca12/scala-netty-examples.git</url>
+        <connection>scm:git:git@github.com:newca12/scala-netty-examples.git</connection>
+    </scm>
+    <developers>
+        <developer>
+            <id>newca12</id>
+            <name>Olivier ROLAND</name>
+            <url>http://www.edla.org</url>
+        </developer>
+    </developers>
+    <contributors> </contributors>
+    <properties>
+        <encoding>UTF-8</encoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <build>
+        <!-- source and test directories not handled yet by sbt make-pom so added manually -->
         <sourceDirectory>src/main/scala</sourceDirectory>
-        <testSourceDirectory>src/main/scala</testSourceDirectory>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>ch.elca.el4j.maven.plugins</groupId>
-					<artifactId>maven-depgraph-plugin</artifactId>
-					<version>3.1</version>
-				</plugin>
-
-			</plugins>
-		</pluginManagement>
-		<plugins>
-			<plugin>
-				<groupId>net.alchim31.maven</groupId>
-				<artifactId>scala-maven-plugin</artifactId>
-				<version>3.1.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>add-source</goal>
-							<goal>compile</goal>
-							<goal>testCompile</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+        <testSourceDirectory>src/test/scala</testSourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>add-source</goal>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.1.0</version>
+            </plugin>
+        </plugins>
+    </reporting>
+    <dependencies>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty</artifactId>
+            <version>3.6.0.Final</version>
+        </dependency>
+    </dependencies>
 </project>
