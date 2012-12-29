@@ -50,7 +50,7 @@ class TelnetServerHandler extends SimpleChannelUpstreamHandler {
         var close: Boolean = false
         if (request.length == 0) {
             response = "Please type something.\r\n"
-        } else if (request.toLowerCase.equals("bye")) {
+        } else if ("bye".equals(request.toLowerCase())) {
             response = "Have a good day!\r\n"
             close = true
         } else {

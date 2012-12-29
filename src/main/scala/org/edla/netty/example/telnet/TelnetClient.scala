@@ -1,11 +1,16 @@
 package org.edla.netty.example.telnet
-import java.io.{ BufferedReader, InputStreamReader }
+
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import java.net.InetSocketAddress
 import java.util.concurrent.Executors
+
+import scala.util.control.Breaks.break
+import scala.util.control.Breaks.breakable
+
 import org.jboss.netty.bootstrap.ClientBootstrap
-import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory
 import org.jboss.netty.channel.ChannelFuture
-import scala.util.control.Breaks._
+import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory
 
 /**
  * Simplistic telnet client.
@@ -56,7 +61,7 @@ object TelnetClient {
 
         // If user typed the 'bye' command, wait until the server closes
         // the connection.
-        if (line.toLowerCase.equals("bye")) {
+        if ("bye".equals(line.toLowerCase())) {
           channel.getCloseFuture.awaitUninterruptibly
           break
         }
