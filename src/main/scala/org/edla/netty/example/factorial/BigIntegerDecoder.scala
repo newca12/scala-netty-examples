@@ -16,7 +16,7 @@ class BigIntegerDecoder extends FrameDecoder {
   override def decode(ctx: ChannelHandlerContext, channel: Channel, buffer: ChannelBuffer): Object = {
         // Wait until the length prefix is available.
         if (buffer.readableBytes < 5) {
-            return null
+            null
         }
 
         buffer.markReaderIndex()
@@ -33,13 +33,13 @@ class BigIntegerDecoder extends FrameDecoder {
         val dataLength = buffer.readInt
         if (buffer.readableBytes < dataLength) {
             buffer.resetReaderIndex()
-            return null
+            null
         }
 
         // Convert the received data into a new BigInteger.
         val decoded = new Array[Byte](dataLength)
         buffer.readBytes(decoded)
 
-        new BigInteger(decoded)  
+        new BigInteger(decoded)
   }
 }

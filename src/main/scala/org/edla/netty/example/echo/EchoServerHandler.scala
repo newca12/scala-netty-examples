@@ -21,7 +21,7 @@ class EchoServerHandler extends SimpleChannelUpstreamHandler {
 
   val transferredBytes = new AtomicLong
 
-  def getTransferredBytes = transferredBytes.get
+  def getTransferredBytes: Long = transferredBytes.get
 
   override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
     // Send back the received message to the remote peer.

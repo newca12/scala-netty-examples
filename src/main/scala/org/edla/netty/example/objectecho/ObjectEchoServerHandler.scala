@@ -23,7 +23,7 @@ class ObjectEchoServerHandler extends SimpleChannelUpstreamHandler {
 
   private val transferredMessages = new AtomicLong
 
-  def getTransferredMessages = transferredMessages.get
+  def getTransferredMessages: Long = transferredMessages.get
 
   override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent) {
     e match {

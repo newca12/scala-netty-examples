@@ -20,7 +20,7 @@ class DiscardServerHandler extends SimpleChannelUpstreamHandler {
 
   var transferredBytes = 0L
 
-  def getTransferredBytes = transferredBytes
+  def getTransferredBytes: Long = transferredBytes
 
   override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent) {
     e match {

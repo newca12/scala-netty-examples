@@ -20,7 +20,7 @@ object QuoteOfTheMomentServer {
 
     // Configure the pipeline factory.
     b.setPipelineFactory(new ChannelPipelineFactory {
-      override def getPipeline = Channels.pipeline(
+      override def getPipeline: ChannelPipeline = Channels.pipeline(
         new StringEncoder(CharsetUtil.ISO_8859_1),
         new StringDecoder(CharsetUtil.ISO_8859_1),
         new QuoteOfTheMomentServerHandler)

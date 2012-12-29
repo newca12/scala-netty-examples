@@ -2,10 +2,9 @@ package org.edla.netty.example.factorial
 
 import java.net.InetSocketAddress
 import java.util.concurrent.Executors
+
 import org.jboss.netty.bootstrap.ClientBootstrap
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory
-import org.jboss.netty.channel.{ChannelFuture, Channel}
-import scala.util.control.Breaks._
 
 /**
  * Sends a sequence of integers to a FactorialServer to calculate

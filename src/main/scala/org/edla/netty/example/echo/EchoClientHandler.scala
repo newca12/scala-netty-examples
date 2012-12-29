@@ -1,20 +1,15 @@
 package org.edla.netty.example.echo
 
 import java.util.concurrent.atomic.AtomicLong
-import org.jboss.netty.buffer.{ ChannelBuffer, ChannelBuffers }
-import org.jboss.netty.channel.{
-  Channel,
-  ChannelEvent,
-  ChannelHandlerContext,
-  ChannelState,
-  ChannelStateEvent,
-  ExceptionEvent,
-  MessageEvent,
-  SimpleChannelUpstreamHandler,
-  WriteCompletionEvent
-}
 import java.util.logging.Logger
-import util.control.Breaks._
+
+import org.jboss.netty.buffer.ChannelBuffer
+import org.jboss.netty.buffer.ChannelBuffers
+import org.jboss.netty.channel.ChannelHandlerContext
+import org.jboss.netty.channel.ChannelStateEvent
+import org.jboss.netty.channel.ExceptionEvent
+import org.jboss.netty.channel.MessageEvent
+import org.jboss.netty.channel.SimpleChannelUpstreamHandler
 
 /**
  * Handler implementation for the echo client.  It initiates the ping-pong
@@ -33,7 +28,7 @@ class EchoClientHandler(firstMessageSize: Int) extends SimpleChannelUpstreamHand
   val range = 0.until(firstMessage.capacity)
   for (i <- range) { firstMessage.writeByte(i.toByte) }
 
-  def getTransferredBytes = transferredBytes.get
+  def getTransferredBytes: Long = transferredBytes.get
 
 
   // Send the first message.  Server will not send anything here

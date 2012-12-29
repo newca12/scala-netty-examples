@@ -1,19 +1,20 @@
 package org.edla.netty.example.discard
 
-import org.jboss.netty.buffer.{ ChannelBuffer, ChannelBuffers }
-import org.jboss.netty.channel.{
-  Channel,
-  ChannelEvent,
-  ChannelHandlerContext,
-  ChannelState,
-  ChannelStateEvent,
-  ExceptionEvent,
-  MessageEvent,
-  SimpleChannelUpstreamHandler,
-  WriteCompletionEvent
-}
 import java.util.logging.Logger
-import util.control.Breaks._
+
+import scala.util.control.Breaks.break
+import scala.util.control.Breaks.breakable
+
+import org.jboss.netty.buffer.ChannelBuffer
+import org.jboss.netty.buffer.ChannelBuffers
+import org.jboss.netty.channel.ChannelEvent
+import org.jboss.netty.channel.ChannelHandlerContext
+import org.jboss.netty.channel.ChannelState
+import org.jboss.netty.channel.ChannelStateEvent
+import org.jboss.netty.channel.ExceptionEvent
+import org.jboss.netty.channel.MessageEvent
+import org.jboss.netty.channel.SimpleChannelUpstreamHandler
+import org.jboss.netty.channel.WriteCompletionEvent
 
 /**
  * Handles a client-side channel.
@@ -24,11 +25,11 @@ class DiscardClientHandler(messageSize: Int) extends SimpleChannelUpstreamHandle
 
   private val logger = Logger.getLogger(getClass.getName)
 
-  var content = new Array[Byte](messageSize)
+  val content = new Array[Byte](messageSize)
 
   private var transferredBytes = 0L
 
-  def getTransferredBytes = transferredBytes
+  def getTransferredBytes: Long = transferredBytes
 
   override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent) {
     e match {

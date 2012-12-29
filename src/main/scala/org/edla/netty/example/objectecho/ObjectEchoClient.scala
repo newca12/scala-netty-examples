@@ -35,7 +35,7 @@ object ObjectEchoClient {
 
     // Set up the pipeline factory.
     bootstrap.setPipelineFactory(new ChannelPipelineFactory {
-      override def getPipeline = Channels.pipeline(
+      override def getPipeline: ChannelPipeline = Channels.pipeline(
         new ObjectEncoder,
         //original Java code still use deprecated API
         new ObjectDecoder(ClassResolvers.weakCachingConcurrentResolver(null)),

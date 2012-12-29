@@ -13,9 +13,9 @@ class NumberEncoder extends OneToOneEncoder {
 
   override def encode(ctx: ChannelHandlerContext, channel: Channel, msg: Object): Object = {
     msg match {
-      case m: Number => 
+      case m: Number =>
       // Ignore what this encoder can't encode.
-      case _ => return msg
+      case _ => msg
     }
 
     // Convert to a BigInteger first for easier implementation.

@@ -1,21 +1,16 @@
 package org.edla.netty.example.objectecho
 
-import java.util.concurrent.atomic.AtomicLong
-import org.jboss.netty.buffer.{ ChannelBuffer, ChannelBuffers }
-import org.jboss.netty.channel.{
-  Channel,
-  ChannelEvent,
-  ChannelHandlerContext,
-  ChannelState,
-  ChannelStateEvent,
-  ExceptionEvent,
-  MessageEvent,
-  SimpleChannelUpstreamHandler,
-  WriteCompletionEvent
-}
-import java.util.logging.Logger
-import util.control.Breaks._
 import java.util.ArrayList
+import java.util.concurrent.atomic.AtomicLong
+import java.util.logging.Logger
+
+import org.jboss.netty.channel.ChannelEvent
+import org.jboss.netty.channel.ChannelHandlerContext
+import org.jboss.netty.channel.ChannelState
+import org.jboss.netty.channel.ChannelStateEvent
+import org.jboss.netty.channel.ExceptionEvent
+import org.jboss.netty.channel.MessageEvent
+import org.jboss.netty.channel.SimpleChannelUpstreamHandler
 
 /**
  * Handler implementation for the object echo client.  It initiates the
@@ -34,7 +29,7 @@ class ObjectEchoClientHandler(firstMessageSize: Int) extends SimpleChannelUpstre
   val range = 0.until(firstMessageSize)
   for (i <- range) { firstMessage.add(i) }
 
-  def getTransferredBytes = transferredMessages.get
+  def getTransferredBytes: Long = transferredMessages.get
 
   override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent) {
     e match {
