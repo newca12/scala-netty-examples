@@ -1,24 +1,20 @@
 package org.edla.netty.example.factorial
 
-import org.jboss.netty.buffer.{ ChannelBuffer, ChannelBuffers }
-import org.jboss.netty.channel.{
-  Channel,
-  ChannelEvent,
-  ChannelHandlerContext,
-  ChannelState,
-  ChannelStateEvent,
-  ExceptionEvent,
-  MessageEvent,
-  SimpleChannelUpstreamHandler,
-  WriteCompletionEvent
-}
-import java.util.logging.Logger
-import util.control.Breaks._
-import java.util.ArrayList
 import java.math.BigInteger
-import org.jboss.netty.channel.ChannelFutureListener
-import org.jboss.netty.channel.ChannelFuture
 import java.util.concurrent.LinkedBlockingQueue
+import java.util.logging.Logger
+
+import scala.util.control.Breaks.break
+import scala.util.control.Breaks.breakable
+
+import org.jboss.netty.channel.ChannelEvent
+import org.jboss.netty.channel.ChannelFuture
+import org.jboss.netty.channel.ChannelFutureListener
+import org.jboss.netty.channel.ChannelHandlerContext
+import org.jboss.netty.channel.ChannelStateEvent
+import org.jboss.netty.channel.ExceptionEvent
+import org.jboss.netty.channel.MessageEvent
+import org.jboss.netty.channel.SimpleChannelUpstreamHandler
 
 /**
  * Handler for a client-side channel.  This handler maintains stateful
@@ -35,8 +31,8 @@ class FactorialClientHandler(count: Int) extends SimpleChannelUpstreamHandler {
   private var receivedMessages: Int = 0
   private val answer = new LinkedBlockingQueue[BigInteger]
 
-  logger.info("FactorialClientHandler:count:"+count)
-  
+  logger.info("FactorialClientHandler:count:" + count)
+
   def getFactorial(): BigInteger = {
     logger.info("FactorialClientHandler.getFactorial")
     var interrupted = false
@@ -46,7 +42,7 @@ class FactorialClientHandler(count: Int) extends SimpleChannelUpstreamHandler {
         if (interrupted) {
           Thread.currentThread.interrupt()
         }
-        return factorial
+        factorial
       } catch {
         case e: InterruptedException =>
           interrupted = true
@@ -97,7 +93,7 @@ class FactorialClientHandler(count: Int) extends SimpleChannelUpstreamHandler {
     breakable {
       while (channel.isWritable) {
         if (i <= count) {
-          channel.write(Integer.valueOf(i))
+          channel.write(i)
           i += 1
         } else {
           break
