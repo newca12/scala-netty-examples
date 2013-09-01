@@ -4,18 +4,15 @@ organization := "org.edla"
 
 version := "0.1-SNAPSHOT"
 
-scalaVersion := "2.10.0"
+scalaVersion := "2.10.2"
 
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-optimize")
 
 scalacOptions in (Compile, doc) ++= Seq("-diagrams","-implicits")
 
 libraryDependencies ++= Seq(
-  "io.netty" % "netty" % "3.6.0.Final"
+  "io.netty" % "netty-all" % "4.0.8.Final"
 )
-
-// Uncomment the following line to use one-jar (https://github.com/sbt/sbt-onejar)
-//seq(com.github.retronym.SbtOneJar.oneJarSettings: _*)
 
 licenses := Seq("GNU GPL v3" -> url("http://www.gnu.org/licenses/gpl.html"))
 
@@ -31,14 +28,9 @@ publishTo <<= version { (v: String) =>
     Some("releases"  at nexus + "service/local/staging/deploy/maven2")
 }
 
-publishArtifact in Test := false
-
-pomIncludeRepository := { _ => false }
+pomIncludeRepository := { _ => true }
 
 pomExtra := (
-  <!-- repositories not handled yet by sbt make-pom so added manually 
-       pluginRepository needed for add-source goal
-  -->
   <scm>
     <url>git@github.com:newca12/scala-netty-examples.git</url>
     <connection>scm:git:git@github.com:newca12/scala-netty-examples.git</connection>
@@ -62,9 +54,18 @@ pomExtra := (
   		<testSourceDirectory>src/test/scala</testSourceDirectory>
     	<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>    	
+			<plugin>
 				<groupId>net.alchim31.maven</groupId>
 				<artifactId>scala-maven-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.1.5</version>
 				<executions>
 					<execution>
 						<goals>
@@ -82,7 +83,7 @@ pomExtra := (
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>
 				<artifactId>scala-maven-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.1.5</version>
 			</plugin>
 		</plugins>
 	</reporting>

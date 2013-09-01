@@ -1,24 +1,41 @@
 package org.edla.netty.example.discard
 
-import java.net.InetSocketAddress
-import java.util.concurrent.Executors
-import org.jboss.netty.bootstrap.ClientBootstrap
-import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory
-import org.jboss.netty.channel.{ ChannelFuture, ChannelPipeline, ChannelPipelineFactory, Channels }
+import io.netty.bootstrap.Bootstrap
+import io.netty.channel.ChannelFuture
+import io.netty.channel.EventLoopGroup
+import io.netty.channel.nio.NioEventLoopGroup
+import io.netty.channel.socket.nio.NioSocketChannel
 
 /**
  * Keeps sending random data to the specified address.
  */
-object DiscardClient {
+class DiscardClient(host: String, port: Int, firstMessageSize: Int) {
 
-  def main(args: Array[String]) {
-    // Print usage if no argument is specified.
-    if (args.length < 2 || args.length > 3) {
-      System.err.println(
-        "Usage: " + DiscardClient.getClass.getSimpleName +
-          " <host> <port> [<first message size>]")
-      return
+  //@throws 
+  def run {
+    val group = new NioEventLoopGroup
+    try {
+      val b = new Bootstrap
+      b.group(group)
+        .channel(classOf[NioSocketChannel])
+        .handler(new DiscardClientHandler(firstMessageSize))
+
+      // Make the connection attempt.
+      val f = b.connect(host, port).sync;
+
+      // Wait until the connection is closed.
+      f.channel.closeFuture.sync
+    } finally {
+      group.shutdownGracefully()
     }
+  }
+}
+
+object DiscardClient {
+  //@throws 
+  def main(args: Array[String]) {
+    require(!(args.length < 2 || args.length > 3),
+      s"Usage:  ${DiscardClient.getClass.getSimpleName} <host> <port> [<first message size>]")
 
     // Parse options.
     val host = args(0)
@@ -27,22 +44,7 @@ object DiscardClient {
     if (args.length == 3) firstMessageSize = args(2).toInt
     else firstMessageSize = 256
 
-    // Configure the server.
-    val bootstrap = new ClientBootstrap(
-      new NioClientSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool))
-
-    // Set up the pipeline factory.
-    bootstrap.setPipelineFactory(new ChannelPipelineFactory {
-      override def getPipeline: ChannelPipeline = Channels.pipeline(new DiscardClientHandler(firstMessageSize))
-    })
-
-    // Start the connection attempt.
-    val future = bootstrap.connect(new InetSocketAddress(host, port))
-
-    // Wait until the connection is closed or the connection attempt fails.
-    future.getChannel.getCloseFuture.awaitUninterruptibly
-
-    // Shut down thread pools to exit.
-    bootstrap.releaseExternalResources()
+    new DiscardClient(host, port, firstMessageSize).run
   }
+
 }

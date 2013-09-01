@@ -19,9 +19,6 @@
         <name>org.edla</name>
         <url>http://github.com/newca12/scala-netty-examples</url>
     </organization>
-    <!-- repositories not handled yet by sbt make-pom so added manually 
-       pluginRepository needed for add-source goal
-  -->
     <scm>
         <url>git@github.com:newca12/scala-netty-examples.git</url>
         <connection>scm:git:git@github.com:newca12/scala-netty-examples.git</connection>
@@ -44,9 +41,18 @@
         <testSourceDirectory>src/test/scala</testSourceDirectory>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.1.5</version>
                 <executions>
                     <execution>
                         <goals>
@@ -64,7 +70,7 @@
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.1.5</version>
             </plugin>
         </plugins>
     </reporting>
@@ -72,12 +78,12 @@
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
-            <version>2.10.0</version>
+            <version>2.10.2</version>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
-            <artifactId>netty</artifactId>
-            <version>3.6.0.Final</version>
+            <artifactId>netty-all</artifactId>
+            <version>4.0.8.Final</version>
         </dependency>
     </dependencies>
 </project>
