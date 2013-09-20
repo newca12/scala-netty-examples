@@ -4,14 +4,14 @@ organization := "org.edla"
 
 version := "0.1-SNAPSHOT"
 
-scalaVersion := "2.10.0"
+scalaVersion := "2.10.2"
 
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-optimize")
 
 scalacOptions in (Compile, doc) ++= Seq("-diagrams","-implicits")
 
 libraryDependencies ++= Seq(
-  "io.netty" % "netty" % "3.6.0.Final"
+  "io.netty" % "netty" % "3.7.0.Final"
 )
 
 // Uncomment the following line to use one-jar (https://github.com/sbt/sbt-onejar)
@@ -64,7 +64,7 @@ pomExtra := (
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>
 				<artifactId>scala-maven-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.1.5</version>
 				<executions>
 					<execution>
 						<goals>
@@ -82,7 +82,7 @@ pomExtra := (
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>
 				<artifactId>scala-maven-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.1.5</version>
 			</plugin>
 		</plugins>
 	</reporting>

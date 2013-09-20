@@ -1,7 +1,7 @@
 package org.edla.netty.example.factorial
 import java.math.BigInteger
 import org.jboss.netty.buffer.ChannelBuffers
-import org.jboss.netty.channel.{Channel, ChannelHandlerContext}
+import org.jboss.netty.channel.{ Channel, ChannelHandlerContext }
 import org.jboss.netty.handler.codec.oneone.OneToOneEncoder
 
 /**
@@ -13,16 +13,16 @@ class NumberEncoder extends OneToOneEncoder {
 
   override def encode(ctx: ChannelHandlerContext, channel: Channel, msg: Object): Object = {
     msg match {
-      case m: Number =>
+      case m: Number ⇒
       // Ignore what this encoder can't encode.
-      case _ => msg
+      case _         ⇒ msg
     }
 
     // Convert to a BigInteger first for easier implementation.
     val v = msg match {
-      case m: BigInteger => m
+      case m: BigInteger ⇒ m
       // Ignore what this encoder can't encode.
-      case _ => new BigInteger(String.valueOf(msg))
+      case _             ⇒ new BigInteger(String.valueOf(msg))
     }
 
     // Convert the number into a byte array.

@@ -14,7 +14,7 @@ import org.jboss.netty.handler.codec.string.StringEncoder
  */
 class TelnetServerPipelineFactory extends ChannelPipelineFactory {
 
-  override def getPipeline :ChannelPipeline = {
+  override def getPipeline: ChannelPipeline = {
     // Create a default pipeline implementation.
     val pipeline = org.jboss.netty.channel.Channels.pipeline
 

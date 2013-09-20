@@ -44,7 +44,7 @@ class FactorialClientHandler(count: Int) extends SimpleChannelUpstreamHandler {
         }
         factorial
       } catch {
-        case e: InterruptedException =>
+        case e: InterruptedException ⇒
           interrupted = true
       }
     }
@@ -54,8 +54,8 @@ class FactorialClientHandler(count: Int) extends SimpleChannelUpstreamHandler {
   override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent) {
     logger.info("FactorialClientHandler.handleStream")
     e match {
-      case c: ChannelStateEvent => logger.info(e.toString)
-      case _ =>
+      case c: ChannelStateEvent ⇒ logger.info(e.toString)
+      case _                    ⇒
     }
     super.handleUpstream(ctx, e)
   }

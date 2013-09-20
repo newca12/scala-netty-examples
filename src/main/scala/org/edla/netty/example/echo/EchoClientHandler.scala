@@ -26,10 +26,9 @@ class EchoClientHandler(firstMessageSize: Int) extends SimpleChannelUpstreamHand
 
   private val firstMessage = ChannelBuffers.buffer(firstMessageSize)
   val range = 0.until(firstMessage.capacity)
-  for (i <- range) { firstMessage.writeByte(i.toByte) }
+  for (i ← range) { firstMessage.writeByte(i.toByte) }
 
   def getTransferredBytes: Long = transferredBytes.get
-
 
   // Send the first message.  Server will not send anything here
   // because the firstMessage's capacity is 0.
@@ -38,8 +37,8 @@ class EchoClientHandler(firstMessageSize: Int) extends SimpleChannelUpstreamHand
   override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
     // Send back the received message to the remote peer.
     transferredBytes.addAndGet((e.getMessage match {
-      case c: ChannelBuffer => c
-      case _ => throw new ClassCastException
+      case c: ChannelBuffer ⇒ c
+      case _                ⇒ throw new ClassCastException
     }) readableBytes)
     e.getChannel.write(e.getMessage)
   }

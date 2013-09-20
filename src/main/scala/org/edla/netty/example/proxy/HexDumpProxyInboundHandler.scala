@@ -95,7 +95,7 @@ class HexDumpProxyInboundHandler(cf: ClientSocketChannelFactory, remoteHost: Str
     }
 
     override def channelInterestChanged(ctx: ChannelHandlerContext,
-      e: ChannelStateEvent) {
+                                        e: ChannelStateEvent) {
       // If outboundChannel is not saturated anymore, continue accepting
       // the incoming traffic from the inboundChannel.
       trafficLock.synchronized {

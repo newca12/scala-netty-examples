@@ -26,8 +26,8 @@ class TelnetServerHandler extends SimpleChannelUpstreamHandler {
 
   override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent) {
     e match {
-      case c: ChannelStateEvent => logger.info(e.toString)
-      case _ =>
+      case c: ChannelStateEvent ⇒ logger.info(e.toString)
+      case _                    ⇒
     }
     super.handleUpstream(ctx, e)
   }
@@ -41,31 +41,31 @@ class TelnetServerHandler extends SimpleChannelUpstreamHandler {
 
   override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
 
-        // Cast to a String first.
-        // We know it is a String because we put some codec in TelnetPipelineFactory.
-        val request = e.getMessage.toString
+    // Cast to a String first.
+    // We know it is a String because we put some codec in TelnetPipelineFactory.
+    val request = e.getMessage.toString
 
-        // Generate and write a response.
-        var response: String = ""
-        var close: Boolean = false
-        if (request.length == 0) {
-            response = "Please type something.\r\n"
-        } else if ("bye".equals(request.toLowerCase())) {
-            response = "Have a good day!\r\n"
-            close = true
-        } else {
-            response = "Did you say '" + request + "'?\r\n"
-        }
+    // Generate and write a response.
+    var response: String = ""
+    var close: Boolean = false
+    if (request.length == 0) {
+      response = "Please type something.\r\n"
+    } else if ("bye".equals(request.toLowerCase())) {
+      response = "Have a good day!\r\n"
+      close = true
+    } else {
+      response = "Did you say '" + request + "'?\r\n"
+    }
 
-        // We do not need to write a ChannelBuffer here.
-        // We know the encoder inserted at TelnetPipelineFactory will do the conversion.
-        val future = e.getChannel.write(response)
+    // We do not need to write a ChannelBuffer here.
+    // We know the encoder inserted at TelnetPipelineFactory will do the conversion.
+    val future = e.getChannel.write(response)
 
-        // Close the connection after sending 'Have a good day!'
-        // if the client has sent 'bye'.
-        if (close) {
-            future.addListener(ChannelFutureListener.CLOSE)
-        }
+    // Close the connection after sending 'Have a good day!'
+    // if the client has sent 'bye'.
+    if (close) {
+      future.addListener(ChannelFutureListener.CLOSE)
+    }
   }
 
   override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {
