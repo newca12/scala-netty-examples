@@ -1,4 +1,4 @@
-# scala-netty-examples [![Build Status](https://buildhive.cloudbees.com/job/newca12/job/scala-netty-examples/badge/icon)](https://buildhive.cloudbees.com/job/newca12/job/scala-netty-examples/)
+# scala-netty-examples
 
 ## About ##
 This is a Scala port of the examples from [Netty distribution](https://github.com/netty/netty/tree/netty-3.6.0.Final/src/main/java/org/jboss/netty/example)
