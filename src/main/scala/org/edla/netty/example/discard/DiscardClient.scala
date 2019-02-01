@@ -2,16 +2,17 @@ package org.edla.netty.example.discard
 
 import java.net.InetSocketAddress
 import java.util.concurrent.Executors
+
 import org.jboss.netty.bootstrap.ClientBootstrap
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory
-import org.jboss.netty.channel.{ ChannelFuture, ChannelPipeline, ChannelPipelineFactory, Channels }
+import org.jboss.netty.channel.{ChannelPipeline, ChannelPipelineFactory, Channels}
 
 /**
- * Keeps sending random data to the specified address.
- */
+  * Keeps sending random data to the specified address.
+  */
 object DiscardClient {
 
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
     // Print usage if no argument is specified.
     if (args.length < 2 || args.length > 3) {
       System.err.println(
@@ -21,8 +22,8 @@ object DiscardClient {
     }
 
     // Parse options.
-    val host = args(0)
-    val port = args(1).toInt
+    val host                  = args(0)
+    val port                  = args(1).toInt
     var firstMessageSize: Int = 0
     if (args.length == 3) firstMessageSize = args(2).toInt
     else firstMessageSize = 256

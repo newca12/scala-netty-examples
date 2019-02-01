@@ -16,7 +16,7 @@ import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory
  * Simplistic telnet client.
  */
 object TelnetClient {
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
     // Print usage if no argument is specified.
     if (args.length != 2) {
       System.err.println(

@@ -4,36 +4,28 @@ import java.math.BigInteger
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.logging.Logger
 
-import scala.util.control.Breaks.break
-import scala.util.control.Breaks.breakable
+import org.jboss.netty.channel._
 
-import org.jboss.netty.channel.ChannelEvent
-import org.jboss.netty.channel.ChannelFuture
-import org.jboss.netty.channel.ChannelFutureListener
-import org.jboss.netty.channel.ChannelHandlerContext
-import org.jboss.netty.channel.ChannelStateEvent
-import org.jboss.netty.channel.ExceptionEvent
-import org.jboss.netty.channel.MessageEvent
-import org.jboss.netty.channel.SimpleChannelUpstreamHandler
+import scala.util.control.Breaks.{break, breakable}
 
 /**
- * Handler for a client-side channel.  This handler maintains stateful
- * information which is specific to a certain channel using member variables.
- * Therefore, an instance of this handler can cover only one channel.  You have
- * to create a new handler instance whenever you create a new channel and insert
- * this handler to avoid a race condition.
- */
+  * Handler for a client-side channel.  This handler maintains stateful
+  * information which is specific to a certain channel using member variables.
+  * Therefore, an instance of this handler can cover only one channel.  You have
+  * to create a new handler instance whenever you create a new channel and insert
+  * this handler to avoid a race condition.
+  */
 class FactorialClientHandler(count: Int) extends SimpleChannelUpstreamHandler {
 
   private val logger = Logger.getLogger(getClass.getName)
 
-  private var i: Int = 1
+  private var i: Int                = 1
   private var receivedMessages: Int = 0
-  private val answer = new LinkedBlockingQueue[BigInteger]
+  private val answer                = new LinkedBlockingQueue[BigInteger]
 
   logger.info("FactorialClientHandler:count:" + count)
 
-  def getFactorial(): BigInteger = {
+  def getFactorial: BigInteger = {
     logger.info("FactorialClientHandler.getFactorial")
     var interrupted = false
     while (true) {
@@ -44,50 +36,50 @@ class FactorialClientHandler(count: Int) extends SimpleChannelUpstreamHandler {
         }
         factorial
       } catch {
-        case e: InterruptedException ⇒
+        case _: InterruptedException ⇒
           interrupted = true
       }
     }
     BigInteger.ONE
   }
 
-  override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent) {
+  override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent): Unit = {
     logger.info("FactorialClientHandler.handleStream")
     e match {
-      case c: ChannelStateEvent ⇒ logger.info(e.toString)
+      case _: ChannelStateEvent ⇒ logger.info(e.toString)
       case _                    ⇒
     }
     super.handleUpstream(ctx, e)
   }
 
-  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent) {
+  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
     sendNumbers(e)
   }
 
-  override def channelInterestChanged(ctx: ChannelHandlerContext, e: ChannelStateEvent) {
+  override def channelInterestChanged(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
     sendNumbers(e)
   }
 
-  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
+  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent): Unit = {
     receivedMessages += 1
     if (receivedMessages == count) {
       // Offer the answer after closing the connection.
-      e.getChannel.close().addListener(new ChannelFutureListener {
-        override def operationComplete(future: ChannelFuture) {
-          val offered: Boolean = answer.offer(((e.getMessage).asInstanceOf[BigInteger]))
+      e.getChannel
+        .close()
+        .addListener((_: ChannelFuture) => {
+          val offered: Boolean = answer.offer(e.getMessage.asInstanceOf[BigInteger])
           assert(offered)
-        }
-      })
+        })
     }
   }
 
-  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {
+  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent): Unit = {
     // Close the connection when an exception is raised.
     logger.warning("Unexpected exception from downstream." + e.getCause)
     e.getChannel.close()
   }
 
-  def sendNumbers(e: ChannelStateEvent) {
+  def sendNumbers(e: ChannelStateEvent): Unit = {
     val channel = e.getChannel
     //TODO rewrite the loop as a recursive function. (Refer to Programming in Scala, 7.6 Living without break and continue)
     breakable {

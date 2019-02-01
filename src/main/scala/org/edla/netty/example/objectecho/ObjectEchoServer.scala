@@ -13,7 +13,7 @@ import org.jboss.netty.handler.codec.serialization.ClassResolvers
  */
 object ObjectEchoServer {
 
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
     // Configure the server.
     val bootstrap = new ServerBootstrap(
       new NioServerSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool))

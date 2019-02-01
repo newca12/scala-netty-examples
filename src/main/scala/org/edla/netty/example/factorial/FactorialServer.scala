@@ -11,7 +11,7 @@ import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory
  */
 object FactorialServer {
 
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
     // Configure the server.
     val bootstrap = new ServerBootstrap(
       new NioServerSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool))

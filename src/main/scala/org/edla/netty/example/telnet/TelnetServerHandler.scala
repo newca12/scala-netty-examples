@@ -1,45 +1,33 @@
 package org.edla.netty.example.telnet
 
-import java.util.concurrent.atomic.AtomicLong
-import org.jboss.netty.buffer.{ ChannelBuffer, ChannelBuffers }
-import org.jboss.netty.channel.{
-  Channel,
-  ChannelEvent,
-  ChannelHandlerContext,
-  ChannelState,
-  ChannelStateEvent,
-  ExceptionEvent,
-  MessageEvent,
-  SimpleChannelUpstreamHandler
-}
-import java.util.logging.Logger
 import java.net.InetAddress
 import java.util.Date
-import org.jboss.netty.channel.ChannelFutureListener
+import java.util.logging.Logger
+
+import org.jboss.netty.channel._
 
 /**
- * Handles a server-side channel.
- */
+  * Handles a server-side channel.
+  */
 class TelnetServerHandler extends SimpleChannelUpstreamHandler {
 
   private val logger = Logger.getLogger(getClass.getName)
 
-  override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent) {
+  override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent): Unit = {
     e match {
-      case c: ChannelStateEvent ⇒ logger.info(e.toString)
+      case _: ChannelStateEvent ⇒ logger.info(e.toString)
       case _                    ⇒
     }
     super.handleUpstream(ctx, e)
   }
 
-  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent) {
+  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
     // Send greeting for a new connection.
-    e.getChannel.write(
-      "Welcome to " + InetAddress.getLocalHost.getHostName + "!\r\n")
+    e.getChannel.write("Welcome to " + InetAddress.getLocalHost.getHostName + "!\r\n")
     e.getChannel.write("It is " + new Date + " now.\r\n")
   }
 
-  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
+  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent): Unit = {
 
     // Cast to a String first.
     // We know it is a String because we put some codec in TelnetPipelineFactory.
@@ -47,7 +35,7 @@ class TelnetServerHandler extends SimpleChannelUpstreamHandler {
 
     // Generate and write a response.
     var response: String = ""
-    var close: Boolean = false
+    var close: Boolean   = false
     if (request.length == 0) {
       response = "Please type something.\r\n"
     } else if ("bye".equals(request.toLowerCase())) {
@@ -68,7 +56,7 @@ class TelnetServerHandler extends SimpleChannelUpstreamHandler {
     }
   }
 
-  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent) {
+  override def exceptionCaught(context: ChannelHandlerContext, e: ExceptionEvent): Unit = {
     // Close the connection when an exception is raised.
     logger.warning("Unexpected exception from downstream." + e.getCause)
     e.getChannel.close()

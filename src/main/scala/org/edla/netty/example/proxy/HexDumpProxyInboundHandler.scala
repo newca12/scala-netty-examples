@@ -1,16 +1,17 @@
 package org.edla.netty.example.proxy
 
-import org.jboss.netty.channel.{ ChannelHandlerContext, ExceptionEvent, MessageEvent, SimpleChannelUpstreamHandler }
+import org.jboss.netty.channel.{ChannelHandlerContext, ExceptionEvent, MessageEvent, SimpleChannelUpstreamHandler}
 import org.jboss.netty.channel.socket.ClientSocketChannelFactory
 import org.jboss.netty.channel.ChannelStateEvent
 import org.jboss.netty.bootstrap.ClientBootstrap
 import java.net.InetSocketAddress
 import org.jboss.netty.channel.ChannelFutureListener
 import org.jboss.netty.channel.ChannelFuture
-import org.jboss.netty.buffer.{ ChannelBuffer, ChannelBuffers }
+import org.jboss.netty.buffer.{ChannelBuffer, ChannelBuffers}
 import org.jboss.netty.channel.Channel
 
-class HexDumpProxyInboundHandler(cf: ClientSocketChannelFactory, remoteHost: String, remotePort: Int) extends SimpleChannelUpstreamHandler {
+class HexDumpProxyInboundHandler(cf: ClientSocketChannelFactory, remoteHost: String, remotePort: Int)
+    extends SimpleChannelUpstreamHandler {
 
   // This lock guards against the race condition that overrides the
   // OP_READ flag incorrectly.
@@ -18,9 +19,9 @@ class HexDumpProxyInboundHandler(cf: ClientSocketChannelFactory, remoteHost: Str
   val trafficLock = new Object
 
   @volatile
-  private var outboundChannel: Channel = null
+  private var outboundChannel: Channel = _
 
-  override def channelOpen(ctx: ChannelHandlerContext, e: ChannelStateEvent) {
+  override def channelOpen(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
     // Suspend incoming traffic until connected to the remote host.
     val inboundChannel = e.getChannel
     inboundChannel.setReadable(false)
@@ -31,21 +32,19 @@ class HexDumpProxyInboundHandler(cf: ClientSocketChannelFactory, remoteHost: Str
     val f = cb.connect(new InetSocketAddress(remoteHost, remotePort))
 
     outboundChannel = f.getChannel
-    f.addListener(new ChannelFutureListener {
-      override def operationComplete(future: ChannelFuture) {
-        if (future.isSuccess) {
-          // Connection attempt succeeded:
-          // Begin to accept incoming traffic.
-          inboundChannel.setReadable(true)
-        } else {
-          // Close the connection if the connection attempt has failed.
-          inboundChannel.close()
-        }
+    f.addListener((future: ChannelFuture) => {
+      if (future.isSuccess) {
+        // Connection attempt succeeded:
+        // Begin to accept incoming traffic.
+        inboundChannel.setReadable(true)
+      } else {
+        // Close the connection if the connection attempt has failed.
+        inboundChannel.close()
       }
     })
   }
 
-  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
+  override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent): Unit = {
     val msg = e.getMessage.asInstanceOf[ChannelBuffer]
     //System.out.println(">>> " + ChannelBuffers.hexDump(msg));
     trafficLock.synchronized {
@@ -58,30 +57,32 @@ class HexDumpProxyInboundHandler(cf: ClientSocketChannelFactory, remoteHost: Str
     }
   }
 
-  override def channelInterestChanged(ctx: ChannelHandlerContext, e: ChannelStateEvent) {
+  override def channelInterestChanged(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
     // If inboundChannel is not saturated anymore, continue accepting
     // the incoming traffic from the outboundChannel.
     trafficLock.synchronized {
       if (e.getChannel.isWritable) {
-        outboundChannel.setReadable(true)
+        if (outboundChannel != null) {
+          outboundChannel.setReadable(true)
+        }
       }
     }
   }
 
-  override def channelClosed(ctx: ChannelHandlerContext, e: ChannelStateEvent) {
+  override def channelClosed(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
     if (outboundChannel != null) {
       closeOnFlush(outboundChannel)
     }
   }
 
-  override def exceptionCaught(ctx: ChannelHandlerContext, e: ExceptionEvent) {
+  override def exceptionCaught(ctx: ChannelHandlerContext, e: ExceptionEvent): Unit = {
     e.getCause.printStackTrace()
     closeOnFlush(e.getChannel)
   }
 
   private class OutboundHandler(inboundChannel: Channel) extends SimpleChannelUpstreamHandler {
 
-    override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
+    override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent): Unit = {
       val msg = e.getMessage.asInstanceOf[ChannelBuffer]
       //System.out.println("<<< " + ChannelBuffers.hexDump(msg))
       trafficLock.synchronized {
@@ -94,8 +95,7 @@ class HexDumpProxyInboundHandler(cf: ClientSocketChannelFactory, remoteHost: Str
       }
     }
 
-    override def channelInterestChanged(ctx: ChannelHandlerContext,
-                                        e: ChannelStateEvent) {
+    override def channelInterestChanged(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
       // If outboundChannel is not saturated anymore, continue accepting
       // the incoming traffic from the inboundChannel.
       trafficLock.synchronized {
@@ -105,22 +105,22 @@ class HexDumpProxyInboundHandler(cf: ClientSocketChannelFactory, remoteHost: Str
       }
     }
 
-    override def channelClosed(ctx: ChannelHandlerContext, e: ChannelStateEvent) {
+    override def channelClosed(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
       closeOnFlush(inboundChannel)
     }
 
-    override def exceptionCaught(ctx: ChannelHandlerContext, e: ExceptionEvent) {
-      e.getCause.printStackTrace();
+    override def exceptionCaught(ctx: ChannelHandlerContext, e: ExceptionEvent): Unit = {
+      e.getCause.printStackTrace()
       closeOnFlush(e.getChannel)
     }
   }
 
   /**
-   * Closes the specified channel after all queued write requests are flushed.
-   */
-  def closeOnFlush(ch: Channel) {
+    * Closes the specified channel after all queued write requests are flushed.
+    */
+  def closeOnFlush(ch: Channel): Unit = {
     if (ch.isConnected) {
-      ch.write(ChannelBuffers.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
+      ch.write(ChannelBuffers.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE)
     }
   }
 

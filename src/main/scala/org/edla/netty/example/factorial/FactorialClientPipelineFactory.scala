@@ -1,10 +1,9 @@
 package org.edla.netty.example.factorial
-import org.jboss.netty.channel.{ ChannelPipeline, ChannelPipelineFactory }
-import org.jboss.netty.handler.codec.compression.{ ZlibDecoder, ZlibEncoder, ZlibWrapper }
+import org.jboss.netty.channel.{ChannelPipeline, ChannelPipelineFactory}
 
 /**
- * Creates a newly configured ChannelPipeline for a client-side channel.
- */
+  * Creates a newly configured ChannelPipeline for a client-side channel.
+  */
 class FactorialClientPipelineFactory(count: Int) extends ChannelPipelineFactory {
 
   override def getPipeline: ChannelPipeline = {

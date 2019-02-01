@@ -7,12 +7,12 @@ import org.jboss.netty.bootstrap.ClientBootstrap
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory
 
 /**
- * Sends a sequence of integers to a FactorialServer to calculate
- * the factorial of the specified integer.
- */
+  * Sends a sequence of integers to a FactorialServer to calculate
+  * the factorial of the specified integer.
+  */
 object FactorialClient {
 
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
     // Print usage if no argument is specified.
     if (args.length != 3) {
       System.err.println(
@@ -22,8 +22,8 @@ object FactorialClient {
     }
 
     // Parse options.
-    val host = args(0)
-    val port = args(1).toInt
+    val host  = args(0)
+    val port  = args(1).toInt
     val count = args(2).toInt
     if (count <= 0) {
       throw new IllegalArgumentException("count must be a positive integer.")
@@ -43,11 +43,10 @@ object FactorialClient {
     val channel = connectFuture.awaitUninterruptibly.getChannel
 
     // Get the handler instance to retrieve the answer.
-    val handler: FactorialClientHandler = (channel.getPipeline.getLast).asInstanceOf[FactorialClientHandler]
+    val handler: FactorialClientHandler = channel.getPipeline.getLast.asInstanceOf[FactorialClientHandler]
 
     // Print out the answer.
-    System.err.format(
-      "Factorial of %s is: %s", count.toString, handler.getFactorial.toString)
+    System.err.println(s"Factorial of ${count} is: ${handler.getFactorial}")
 
     // Shut down all thread pools to exit.
     bootstrap.releaseExternalResources()

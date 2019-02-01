@@ -13,7 +13,7 @@ import org.jboss.netty.util.CharsetUtil
  */
 object QuoteOfTheMomentServer {
 
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
     val f = new NioDatagramChannelFactory(Executors.newCachedThreadPool)
 
     val b = new ConnectionlessBootstrap(f)
