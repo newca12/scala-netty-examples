@@ -1,19 +1,16 @@
-*.class
-*.log
-
-# sbt specific
-dist/*
-target/
-lib_managed/
-src_managed/
-project/boot/
-project/plugins/project/
-
-# Eclipse specific
 .cache
+.cache-main
+.cache-tests
 .classpath
+.history
+.idea/
 .project
 .settings/
-
-# Scala-IDE specific
-.scala_dependencies
+.target/
+.worksheet/
+.DS_Store
+journal/
+snapshots/
+target/
+/bin/
+native/

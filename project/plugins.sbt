@@ -1,1 +1,2 @@
-addSbtPlugin("com.typesafe.sbt" % "sbt-scalariform" % "1.2.0")
+addSbtPlugin("com.geirsson" % "sbt-scalafmt" % "1.6.0-RC4")
+addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.9")
