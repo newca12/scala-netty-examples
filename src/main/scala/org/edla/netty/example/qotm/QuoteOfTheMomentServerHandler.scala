@@ -1,11 +1,11 @@
 package org.edla.netty.example.qotm
 
 import java.util.Random
-import org.jboss.netty.channel.{ ChannelHandlerContext, ExceptionEvent, MessageEvent, SimpleChannelUpstreamHandler }
+import org.jboss.netty.channel.{ChannelHandlerContext, ExceptionEvent, MessageEvent, SimpleChannelUpstreamHandler}
 
 /**
- * Handles a server-side channel.
- */
+  * Handles a server-side channel.
+  */
 class QuoteOfTheMomentServerHandler extends SimpleChannelUpstreamHandler {
 
   private val random = new Random
@@ -14,7 +14,8 @@ class QuoteOfTheMomentServerHandler extends SimpleChannelUpstreamHandler {
     "Where there is love there is life.",
     "First they ignore you, then they laugh at you, then they fight you, then you win.",
     "Be the change you want to see in the world.",
-    "The weak can never forgive. Forgiveness is the attribute of the strong.")
+    "The weak can never forgive. Forgiveness is the attribute of the strong."
+  )
 
   def nextQuote(): String = {
     var quoteId: Int = 0

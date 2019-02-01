@@ -17,8 +17,8 @@ import org.jboss.netty.channel.SimpleChannelUpstreamHandler
 import org.jboss.netty.channel.WriteCompletionEvent
 
 /**
- * Handles a client-side channel.
- */
+  * Handles a client-side channel.
+  */
 class DiscardClientHandler(messageSize: Int) extends SimpleChannelUpstreamHandler {
 
   require(messageSize > 0)

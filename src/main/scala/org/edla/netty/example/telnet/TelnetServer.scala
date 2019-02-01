@@ -6,14 +6,15 @@ import org.jboss.netty.bootstrap.ServerBootstrap
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory
 
 /**
- * Simplistic telnet server.
- */
+  * Simplistic telnet server.
+  */
 object TelnetServer {
 
   def main(args: Array[String]): Unit = {
     // Configure the server.
     val bootstrap = new ServerBootstrap(
-      new NioServerSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool))
+      new NioServerSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool)
+    )
 
     // Configure the pipeline factory.
     bootstrap.setPipelineFactory(new TelnetServerPipelineFactory)

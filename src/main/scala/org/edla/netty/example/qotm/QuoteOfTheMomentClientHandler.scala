@@ -1,10 +1,10 @@
 package org.edla.netty.example.qotm
 
-import org.jboss.netty.channel.{ ChannelHandlerContext, ExceptionEvent, MessageEvent, SimpleChannelUpstreamHandler }
+import org.jboss.netty.channel.{ChannelHandlerContext, ExceptionEvent, MessageEvent, SimpleChannelUpstreamHandler}
 
 /**
- * Handles a client-side channel.
- */
+  * Handles a client-side channel.
+  */
 class QuoteOfTheMomentClientHandler extends SimpleChannelUpstreamHandler {
 
   override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent): Unit = {

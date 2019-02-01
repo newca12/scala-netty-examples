@@ -17,7 +17,8 @@ object FactorialClient {
     if (args.length != 3) {
       System.err.println(
         "Usage: " + FactorialClient.getClass.getSimpleName +
-          " <host> <port> <count>")
+          " <host> <port> <count>"
+      )
       return
     }
 
@@ -31,7 +32,8 @@ object FactorialClient {
 
     // Configure the client.
     val bootstrap = new ClientBootstrap(
-      new NioClientSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool))
+      new NioClientSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool)
+    )
 
     // Set up the event pipeline factory.
     bootstrap.setPipelineFactory(new FactorialClientPipelineFactory(count))

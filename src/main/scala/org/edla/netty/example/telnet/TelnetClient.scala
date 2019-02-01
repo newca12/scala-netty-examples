@@ -13,15 +13,16 @@ import org.jboss.netty.channel.ChannelFuture
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory
 
 /**
- * Simplistic telnet client.
- */
+  * Simplistic telnet client.
+  */
 object TelnetClient {
   def main(args: Array[String]): Unit = {
     // Print usage if no argument is specified.
     if (args.length != 2) {
       System.err.println(
         "Usage: " + TelnetClient.getClass.getSimpleName +
-          " <host> <port>")
+          " <host> <port>"
+      )
       return
     }
 
@@ -31,7 +32,8 @@ object TelnetClient {
 
     // Configure the client.
     val bootstrap = new ClientBootstrap(
-      new NioClientSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool))
+      new NioClientSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool)
+    )
 
     // Set up the pipeline factory.
     bootstrap.setPipelineFactory(new TelnetClientPipelineFactory)
@@ -49,7 +51,7 @@ object TelnetClient {
 
     // Read commands from the stdin.
     var lastWriteFuture: ChannelFuture = null
-    val in = new BufferedReader(new InputStreamReader(System.in))
+    val in                             = new BufferedReader(new InputStreamReader(System.in))
     //TODO rewrite the loop as a recursive function. (Refer to Programming in Scala, 7.6 Living without break and continue)
     breakable {
       while (true) {

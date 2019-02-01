@@ -32,7 +32,9 @@ class EchoClientHandler(firstMessageSize: Int) extends SimpleChannelUpstreamHand
 
   // Send the first message.  Server will not send anything here
   // because the firstMessage's capacity is 0.
-  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = { e.getChannel.write(firstMessage) }
+  override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent): Unit = {
+    e.getChannel.write(firstMessage)
+  }
 
   override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent): Unit = {
     // Send back the received message to the remote peer.

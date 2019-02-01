@@ -13,7 +13,8 @@ object HexDumpProxy {
     if (args.length != 3) {
       System.err.println(
         "Usage: " + HexDumpProxy.getClass.getSimpleName +
-          " <local port> <remote host> <remote port>")
+          " <local port> <remote host> <remote port>"
+      )
       return
     }
 
@@ -24,7 +25,8 @@ object HexDumpProxy {
 
     System.err.println(
       "Proxying *:" + localPort + " to " +
-        remoteHost + ':' + remotePort + " ...")
+        remoteHost + ':' + remotePort + " ..."
+    )
 
     // Configure the bootstrap.
     val executor: Executor = Executors.newCachedThreadPool

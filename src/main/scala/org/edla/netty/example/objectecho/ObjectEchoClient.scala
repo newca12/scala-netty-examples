@@ -18,7 +18,8 @@ object ObjectEchoClient {
     if (args.length < 2 || args.length > 3) {
       System.err.println(
         "Usage: " + ObjectEchoClient.getClass.getSimpleName +
-          " <host> <port> [<first message size>]")
+          " <host> <port> [<first message size>]"
+      )
       return
     }
 
@@ -31,7 +32,8 @@ object ObjectEchoClient {
 
     // Configure the client.
     val bootstrap = new ClientBootstrap(
-      new NioClientSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool))
+      new NioClientSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool)
+    )
 
     // Set up the pipeline factory.
     bootstrap.setPipelineFactory(new ChannelPipelineFactory {

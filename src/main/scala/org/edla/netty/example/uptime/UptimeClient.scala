@@ -27,7 +27,8 @@ object UptimeClient {
     if (args.length != 2) {
       System.err.println(
         "Usage: " + UptimeClient.getClass.getSimpleName +
-          " <host> <port>")
+          " <host> <port>"
+      )
       return
     }
 
@@ -40,7 +41,8 @@ object UptimeClient {
 
     // Configure the client.
     val bootstrap = new ClientBootstrap(
-      new NioClientSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool))
+      new NioClientSocketChannelFactory(Executors.newCachedThreadPool, Executors.newCachedThreadPool)
+    )
 
     // Set up the pipeline factory.
     bootstrap.setPipelineFactory(new ChannelPipelineFactory {
