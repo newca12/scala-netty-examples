@@ -22,8 +22,8 @@ class FactorialServerHandler extends SimpleChannelUpstreamHandler {
 
   override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent): Unit = {
     e match {
-      case _: ChannelStateEvent ⇒ logger.info(e.toString)
-      case _                    ⇒ None
+      case _: ChannelStateEvent => logger.info(e.toString)
+      case _                    => None
     }
     super.handleUpstream(ctx, e)
   }
@@ -33,8 +33,8 @@ class FactorialServerHandler extends SimpleChannelUpstreamHandler {
     // Calculate the cumulative factorial and send it to the client.
     var number = BigInteger.ONE
     e.getMessage match {
-      case _: BigInteger ⇒ number = e.getMessage.asInstanceOf[BigInteger]
-      case _             ⇒ number = new BigInteger(e.getMessage.toString)
+      case _: BigInteger => number = e.getMessage.asInstanceOf[BigInteger]
+      case _             => number = new BigInteger(e.getMessage.toString)
     }
     lastMultiplier = number.intValue
     factorial = factorial.multiply(number)

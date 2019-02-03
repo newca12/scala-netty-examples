@@ -21,14 +21,14 @@ class ObjectEchoClientHandler(firstMessageSize: Int) extends SimpleChannelUpstre
 
   private val firstMessage = new util.ArrayList[java.lang.Integer](firstMessageSize)
   val range: Range         = 0.until(firstMessageSize)
-  for (i ← range) { firstMessage.add(i) }
+  for (i <- range) { firstMessage.add(i) }
 
   def getTransferredBytes: Long = transferredMessages.get
 
   override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent): Unit = {
     e match {
-      case c: ChannelStateEvent ⇒ if (c.getState != ChannelState.INTEREST_OPS) logger.info(e.toString)
-      case _                    ⇒ None
+      case c: ChannelStateEvent => if (c.getState != ChannelState.INTEREST_OPS) logger.info(e.toString)
+      case _                    => None
     }
     super.handleUpstream(ctx, e)
   }

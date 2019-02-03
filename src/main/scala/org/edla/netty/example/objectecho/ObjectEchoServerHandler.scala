@@ -19,8 +19,8 @@ class ObjectEchoServerHandler extends SimpleChannelUpstreamHandler {
 
   override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent): Unit = {
     e match {
-      case c: ChannelStateEvent ⇒ if (c.getState != ChannelState.INTEREST_OPS) logger.info(e.toString)
-      case _                    ⇒ None
+      case c: ChannelStateEvent => if (c.getState != ChannelState.INTEREST_OPS) logger.info(e.toString)
+      case _                    => None
     }
     super.handleUpstream(ctx, e)
   }

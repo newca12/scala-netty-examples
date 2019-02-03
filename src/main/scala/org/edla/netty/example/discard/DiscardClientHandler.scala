@@ -33,8 +33,8 @@ class DiscardClientHandler(messageSize: Int) extends SimpleChannelUpstreamHandle
 
   override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent): Unit = {
     e match {
-      case c: ChannelStateEvent ⇒ if (c.getState != ChannelState.INTEREST_OPS) logger.info(e.toString)
-      case _                    ⇒
+      case c: ChannelStateEvent => if (c.getState != ChannelState.INTEREST_OPS) logger.info(e.toString)
+      case _                    =>
     }
 
     // Let SimpleChannelHandler call actual event handler methods below.

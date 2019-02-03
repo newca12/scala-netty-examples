@@ -15,8 +15,8 @@ class TelnetServerHandler extends SimpleChannelUpstreamHandler {
 
   override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent): Unit = {
     e match {
-      case _: ChannelStateEvent ⇒ logger.info(e.toString)
-      case _                    ⇒
+      case _: ChannelStateEvent => logger.info(e.toString)
+      case _                    =>
     }
     super.handleUpstream(ctx, e)
   }

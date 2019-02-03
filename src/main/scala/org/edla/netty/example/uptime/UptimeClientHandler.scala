@@ -42,12 +42,12 @@ class UptimeClientHandler(bootstrap: ClientBootstrap, timer: Timer) extends Simp
   override def exceptionCaught(ctx: ChannelHandlerContext, e: ExceptionEvent): Unit = {
     val cause = e.getCause
     cause match {
-      case _: ConnectException ⇒
+      case _: ConnectException =>
         startTime = -1
         println("Failed to connect: " + cause.getMessage)
       // The connection was OK but there was no traffic for last period.
-      case _: ReadTimeoutException ⇒ println("Disconnecting due to no inbound traffic")
-      case _                       ⇒ cause.printStackTrace()
+      case _: ReadTimeoutException => println("Disconnecting due to no inbound traffic")
+      case _                       => cause.printStackTrace()
     }
     ctx.getChannel.close()
   }

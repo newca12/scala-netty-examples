@@ -24,8 +24,8 @@ class DiscardServerHandler extends SimpleChannelUpstreamHandler {
 
   override def handleUpstream(ctx: ChannelHandlerContext, e: ChannelEvent): Unit = {
     e match {
-      case _: ChannelStateEvent ⇒ logger.info(e.toString)
-      case _                    ⇒ None
+      case _: ChannelStateEvent => logger.info(e.toString)
+      case _                    => None
     }
     super.handleUpstream(ctx, e)
   }
@@ -33,8 +33,8 @@ class DiscardServerHandler extends SimpleChannelUpstreamHandler {
   override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent): Unit = {
     // Discard received data silently by doing nothing.
     transferredBytes += ((e.getMessage match {
-      case c: ChannelBuffer ⇒ c
-      case _                ⇒ throw new ClassCastException
+      case c: ChannelBuffer => c
+      case _                => throw new ClassCastException
     }) readableBytes)
   }
 

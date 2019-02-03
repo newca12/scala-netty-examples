@@ -20,8 +20,8 @@ class EchoServerHandler extends SimpleChannelUpstreamHandler {
   override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent): Unit = {
     // Send back the received message to the remote peer.
     transferredBytes.addAndGet((e.getMessage match {
-      case c: ChannelBuffer ⇒ c
-      case _                ⇒ throw new ClassCastException
+      case c: ChannelBuffer => c
+      case _                => throw new ClassCastException
     }) readableBytes)
     e.getChannel.write(e.getMessage)
   }
